@@ -16,7 +16,7 @@ public class Server extends Thread {
 	
 	private ServerSocket socket;
 	
-	public Map<Integer, Player> clients;
+	public Map<Integer, PlayerConnection> clients;
 	public BlockingQueue<Update> updates = new LinkedBlockingQueue<Update>();
 	
 	public Server(){
@@ -27,7 +27,7 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 		
-		clients = new HashMap<Integer, Player>();
+		clients = new HashMap<Integer, PlayerConnection>();
 	}
 	
 	public void run(){
@@ -38,7 +38,7 @@ public class Server extends Thread {
 			boolean done = false;
 			while(!done){
 				Socket client = socket.accept();
-				clients.put(id,  new Player(client, new ObjectOutputStream(client.getOutputStream())));
+				clients.put(id,  new PlayerConnection(client, new ObjectOutputStream(client.getOutputStream())));
 				ServerThread serverThread = new ServerThread(this, id, client);
 				serverThread.start();
 				// ------- TODO: We want the server to send back the current state of the game world here! At the moment, it'll only just send out a dummy event!

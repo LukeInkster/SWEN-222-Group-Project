@@ -45,7 +45,7 @@ public class UpdateThread extends Thread {
 	 * @param event Event to send
 	 * @param player Player wrapper containing the client information
 	 */
-	public void sendClient(Event event, Player player){
+	public void sendClient(Event event, PlayerConnection player){
 		try {
 			player.out.writeObject(event);
 		} catch (IOException e) {
@@ -58,7 +58,7 @@ public class UpdateThread extends Thread {
 	 * @param event
 	 */
 	public void sendAllClients(Event event){
-		for(Player player : server.clients.values())
+		for(PlayerConnection player : server.clients.values())
 			sendClient(event, player);
 		}
 	
@@ -68,9 +68,9 @@ public class UpdateThread extends Thread {
 	 * @param p Players to be ignored.
 	 */
 	
-	public void sendAllClients(Event event, Player... p){
-		List<Player> exceptions = Arrays.asList(p);
-		for(Player player : server.clients.values()){
+	public void sendAllClients(Event event, PlayerConnection... p){
+		List<PlayerConnection> exceptions = Arrays.asList(p);
+		for(PlayerConnection player : server.clients.values()){
 			if(exceptions.contains(player)) continue;
 			sendClient(event, player);
 		}
