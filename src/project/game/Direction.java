@@ -11,7 +11,7 @@ public enum Direction {
 	 * @return The Direction 90 degrees clockwise of the current direction
 	 */
 	public Direction clockwise(){
-		int newDir = (ordinal()+1)%3;
+		int newDir = (ordinal()+1)%4;
 		return Direction.values()[newDir];
 	}
 	
@@ -20,6 +20,14 @@ public enum Direction {
 	 */
 	public Direction anticlockwise(){
 		int newDir = ordinal()==0?3:ordinal()-1;
+		return Direction.values()[newDir];		
+	}
+	
+	/**
+	 * @return The Direction 180 degrees from the current direction
+	 */
+	public Direction opposite(){
+		int newDir = (ordinal()+2)%4;
 		return Direction.values()[newDir];		
 	}
 }

@@ -10,6 +10,7 @@ public class Player {
 	
 	public Player(Location location){
 		this.setLocation(location);
+		this.orientation = Direction.NORTH;
 	}
 	
 	/**
@@ -18,6 +19,13 @@ public class Player {
 	 */
 	public void addItem(Item item){
 		this.items.add(item);
+	}
+	
+	/**
+	 * @return The list of items held by the player
+	 */
+	public List<Item> getItems(){
+		return this.items;
 	}
 	
 	/**
@@ -32,21 +40,21 @@ public class Player {
 	 * Rotates the player 90 degrees clockwise
 	 */
 	public void rotateClockwise(){
-		orientation = orientation.clockwise();
+		this.orientation = orientation.clockwise();
 	}
 	
 	/**
 	 * Rotates the player 90 degrees anticlockwise
 	 */
 	public void rotateAnticlockwise(){
-		orientation = orientation.anticlockwise();
+		this.orientation = orientation.anticlockwise();
 	}
 
 	/**
 	 * @return the Location of the Player
 	 */
 	public Location getLocation() {
-		return location;
+		return this.location;
 	}
 
 	/**

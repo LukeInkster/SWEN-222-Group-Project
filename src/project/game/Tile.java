@@ -27,4 +27,25 @@ public class Tile extends Item {
 	public void addDoor(Direction direction){
 		doors[direction.ordinal()] = true;
 	}
+	
+	/**
+	 * Removes a door from the tile
+	 * @param direction The wall from which to remove the door
+	 */
+	public void removeDoor(Direction direction){
+		doors[direction.ordinal()] = false;
+	}
+	
+	/**
+	 * Returns a new Tile object which has a Door wherever either this
+	 * Tile or the parameter Tile has a Door.
+	 * @param other The Tile to combine this tile with
+	 */
+	public Tile combineWith(Tile other){
+		return new Tile(
+			doors[0]||other.doors[0],
+			doors[1]||other.doors[1],
+			doors[2]||other.doors[2],
+			doors[3]||other.doors[3]);
+	}
 }
