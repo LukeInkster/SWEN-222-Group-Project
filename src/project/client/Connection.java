@@ -64,7 +64,7 @@ public class Connection extends Thread{
 		while (running){
 			Event currentEvent = nextEvent();
 			if(currentEvent == null){
-				System.err.println(this + "[ERROR] Client Recieved null!");
+				//System.err.println(this + "[ERROR] Client Recieved null!");
 				continue;
 			}
 			events.offer(currentEvent);
