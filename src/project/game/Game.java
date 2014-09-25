@@ -14,9 +14,19 @@ public class Game implements Iterable<Player>{
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
 	public Game(){
-		
+		generateRooms();
 	}
 	
+	private void generateRooms() {
+		int endX = (int)(Math.random()*GAME_WIDTH);
+		int endY = (int)(Math.random()*GAME_HEIGHT);
+		for(int x=0;x<GAME_WIDTH;x++){
+			for(int y=0;y<GAME_HEIGHT;y++){
+				rooms[x][y] = new Room(x,y,(x==endX && y==endY));
+			}
+		}		
+	}
+
 	/**
 	 * Moves the player associated with the parameter playerID in the
 	 * direction specified by the parameter direction
@@ -36,22 +46,23 @@ public class Game implements Iterable<Player>{
 		// If the player is at a door and is trying to move through it, get the
 		// room on the other side of the door and move the player to the location
 		// on the other side of the door
-		if(currentLoc.equals(currentRoom.getDoorLoc(dir))){
+		if(currentLoc.equals(currentRoom.getDoorLocation(dir))){
 			Room targetRoom = adjacentRoom(currentRoom,dir);
-			// targetRoom will be null if the player is attempting to move off the Room grid
+
+			// targetRoom will be null if the player is attempting to 
+			// move off the Room grid
 			if(targetRoom==null) return false;
-			targetLoc = targetRoom.getDoorLoc(dir.opposite());
+			
+			// If either currentRoom or targetRoom does not have a door
+			// on their adjoining wall, return false.
+			if(!currentRoom.hasDoor(dir)) return false;
+			if(!targetRoom.hasDoor(dir.opposite())) return false;
+			
+			targetLoc = targetRoom.getDoorLocation(dir.opposite());
 		}
 		// Otherwise get the Location one step in the given direction
 		else{
-			if(dir == Direction.NORTH)
-				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()-1);
-			else if(dir == Direction.EAST)
-				targetLoc = currentRoom.location(currentLoc.getX()+1, currentLoc.getY());
-			else if(dir == Direction.SOUTH)
-				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()+1);
-			else
-				targetLoc = currentRoom.location(currentLoc.getX()-1, currentLoc.getY());
+			targetLoc = currentRoom.adjecentLocation(currentLoc, dir);
 		}
 		
 		// targetLoc will be null if the player is attempting to move out of the
@@ -63,7 +74,11 @@ public class Game implements Iterable<Player>{
 		return true;
 	}
 	
-	private Room adjacentRoom(Room room, Direction direction){
+	/**
+	 * Returns the Room adjacent to the parameter Room 
+	 * in the parameter Direction
+	 */
+	public Room adjacentRoom(Room room, Direction direction){
 		if(direction==Direction.NORTH)	return room(room.getY(),room.getX()-1);
 		if(direction==Direction.EAST)	return room(room.getY()+1,room.getX());
 		if(direction==Direction.SOUTH)	return room(room.getY(),room.getX()+1);
