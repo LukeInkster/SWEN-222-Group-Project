@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Game implements Iterable<Player>{
-	private final int maxPlayers = 4;
-	private final int gameWidth = 6;
-	private final int gameHeight = 6;
+	private static final int MAX_PLAYERS = 4;
+	private static final int GAME_WIDTH = 6;
+	private static final int GAME_HEIGHT = 6;
 	
-	private Room[][] rooms = new Room[gameWidth][gameHeight];
+	private Room[][] rooms = new Room[GAME_WIDTH][GAME_HEIGHT];
 	
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
@@ -17,48 +17,48 @@ public class Game implements Iterable<Player>{
 		
 	}
 	
-	public boolean movePlayer(Player player, Direction direction){
+	/**
+	 * Moves the player associated with the parameter playerID in the
+	 * direction specified by the parameter direction
+	 * @param playerID The ID of the player to move
+	 * @param dir The direction to move
+	 * @return True if the move is successful, false otherwise
+	 */
+	public boolean movePlayer(int playerID, Direction dir){
+		return movePlayer(player(playerID),dir);
+	}
+
+	private boolean movePlayer(Player player, Direction dir){
 		Location currentLoc = player.getLocation();
 		Room currentRoom = currentLoc.getRoom();
 		Location targetLoc = null;
-		
-		if(direction==Direction.NORTH){
-			if(currentLoc.equals(currentRoom.getDoorLoc(Direction.NORTH))){
-				if(currentRoom.getY()==0) return false;
-				targetLoc = adjacentRoom(currentRoom, direction).getDoorLoc(Direction.SOUTH);
-			}
-			else{
-				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()-1);
-			}
+
+		// If the player is at a door and is trying to move through it, get the
+		// room on the other side of the door and move the player to the location
+		// on the other side of the door
+		if(currentLoc.equals(currentRoom.getDoorLoc(dir))){
+			Room targetRoom = adjacentRoom(currentRoom,dir);
+			// targetRoom will be null if the player is attempting to move off the Room grid
+			if(targetRoom==null) return false;
+			targetLoc = targetRoom.getDoorLoc(dir.opposite());
 		}
-		else if(direction==Direction.EAST){
-			if(currentLoc.equals(currentRoom.getDoorLoc(Direction.EAST))){
-				if(currentRoom.getY()==gameWidth-1) return false;
-				targetLoc = adjacentRoom(currentRoom, direction).getDoorLoc(Direction.WEST);
-			}
-			else{
-				targetLoc = currentRoom.location(currentLoc.getX()+1, currentLoc.getY());
-			}			
-		}
-		else if(direction==Direction.SOUTH){
-			if(currentLoc.equals(currentRoom.getDoorLoc(Direction.SOUTH))){
-				if(currentRoom.getY()==gameHeight-1) return false;
-				targetLoc = adjacentRoom(currentRoom, direction).getDoorLoc(Direction.NORTH);
-			}
-			else{
-				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()+1);
-			}				
-		}
+		// Otherwise get the Location one step in the given direction
 		else{
-			if(currentLoc.equals(currentRoom.getDoorLoc(Direction.WEST))){
-				if(currentRoom.getX()==0) return false;
-				targetLoc = adjacentRoom(currentRoom, direction).getDoorLoc(Direction.EAST);
-			}
-			else{
+			if(dir == Direction.NORTH)
+				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()-1);
+			else if(dir == Direction.EAST)
+				targetLoc = currentRoom.location(currentLoc.getX()+1, currentLoc.getY());
+			else if(dir == Direction.SOUTH)
+				targetLoc = currentRoom.location(currentLoc.getX(), currentLoc.getY()+1);
+			else
 				targetLoc = currentRoom.location(currentLoc.getX()-1, currentLoc.getY());
-			}				
 		}
+		
+		// targetLoc will be null if the player is attempting to move out of the
+		// room through any path other than an open door
 		if(targetLoc==null) return false;
+		
+		// Success state: move the player and return true
 		player.setLocation(targetLoc);
 		return true;
 	}
@@ -82,7 +82,7 @@ public class Game implements Iterable<Player>{
 	 * if the x or y coordinate is outside the bounds of the Game
 	 */
 	public Room room(int x, int y){
-		if(x<0 || y<0 || x>=gameWidth || y>=gameHeight) return null;
+		if(x<0 || y<0 || x>=GAME_WIDTH || y>=GAME_HEIGHT) return null;
 		return rooms[x][y];
 	}
 
@@ -93,7 +93,7 @@ public class Game implements Iterable<Player>{
 	 * @return True if the add is successful
 	 */
 	public boolean addPlayer(int playerID, Player player){
-		if(this.players.size()>=maxPlayers) return false;
+		if(this.players.size()>=MAX_PLAYERS) return false;
 		players.put(playerID, player);
 		return true;
 	}
