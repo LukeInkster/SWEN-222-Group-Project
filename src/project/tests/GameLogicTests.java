@@ -9,6 +9,7 @@ import project.game.Direction;
 import project.game.Door;
 import project.game.Location;
 import project.game.Player;
+import project.game.Room;
 import project.game.Tile;
 
 public class GameLogicTests {
@@ -49,7 +50,7 @@ public class GameLogicTests {
 	public void testConstructor() {
 		int x = 1;
 		int y = 2;
-		Location loc = new Location(x,y);
+		Location loc = new Location(null, x,y);
 		assertFalse(loc.hasItem());
 		assertTrue(loc.getX()==x);
 		assertTrue(loc.getY()==y);
@@ -81,7 +82,7 @@ public class GameLogicTests {
 	}
 	
 	private Location dummyLocation(){
-		return new Location(0,0);
+		return new Location(null, 0,0);
 	}
 	
 	// ============================================================= //
@@ -109,13 +110,13 @@ public class GameLogicTests {
 	@Test
 	public void testSetLocation() {
 		Player p = dummyPlayer();
-		p.setLocation(new Location(1,2));
+		p.setLocation(new Location(null, 1,2));
 		Location newLoc = p.getLocation();
 		assertTrue(newLoc.getX()==1 && newLoc.getY()==2);
 	}
 	
 	private Player dummyPlayer(){
-		return new Player(new Location(0,0));
+		return new Player(new Location(null, 0,0));
 	}
 	
 	// ============================================================= //

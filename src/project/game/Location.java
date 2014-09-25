@@ -7,11 +7,14 @@ public class Location {
 	
 	private Item item;
 	
-	public Location(int x, int y){
+	private Room room;
+	
+	public Location(Room room, int x, int y){
+		this.room = room;
 		this.x = x;
 		this.y = y;
-	}	
-	
+	}
+
 	/**
 	 * @return True if there is an item at this location
 	 */
@@ -61,5 +64,32 @@ public class Location {
 	 */
 	public int getY() {
 		return y;
+	}
+
+	/**
+	 * @return the room
+	 */
+	public Room getRoom() {
+		return room;
+	}
+
+	/**
+	 * @param room the room to set
+	 */
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	/**
+	 * Returns true if this location is in front of a door on the
+	 * wall specified by the parameter
+	 * @param direction The wall to check
+	 */
+	public boolean isDoor(Direction direction) {
+		if(direction == Direction.NORTH && x == Room.ROOM_WIDTH/2 && y==0) return true;
+		if(direction == Direction.EAST && x == Room.ROOM_WIDTH-1 && y==Room.ROOM_HEIGHT/2) return true;
+		if(direction == Direction.SOUTH && x == 0 && y==Room.ROOM_HEIGHT/2) return true;
+		if(direction == Direction.WEST && x == Room.ROOM_WIDTH/2 && y==Room.ROOM_HEIGHT-1) return true;
+		return false;
 	}
 }

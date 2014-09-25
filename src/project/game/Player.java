@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+	private static final int maxItems = 10;
 	private List<Item> items = new ArrayList<Item>();	
 	private Location location;	
 	private Direction orientation;
 	
 	public Player(Location location){
 		this.setLocation(location);
-		this.orientation = Direction.NORTH;
+		this.setOrientation(Direction.NORTH);
 	}
 	
 	/**
-	 * Adds the parameter item to the players items list
+	 * Adds the parameter item to the players items list if they
+	 * have room in their inventory for the item, returns true if
+	 * the item is added or false if it is not.
 	 * @param item The item to add
+	 * @return True if the item is added to the players inventory
 	 */
-	public void addItem(Item item){
+	public boolean addItem(Item item){
+		if(items.size()>=maxItems) return false;
 		this.items.add(item);
+		return true;
 	}
 	
 	/**
@@ -40,14 +46,28 @@ public class Player {
 	 * Rotates the player 90 degrees clockwise
 	 */
 	public void rotateClockwise(){
-		this.orientation = orientation.clockwise();
+		this.setOrientation(getOrientation().clockwise());
 	}
 	
 	/**
 	 * Rotates the player 90 degrees anticlockwise
 	 */
 	public void rotateAnticlockwise(){
-		this.orientation = orientation.anticlockwise();
+		this.setOrientation(getOrientation().anticlockwise());
+	}
+
+	/**
+	 * @return the orientation
+	 */
+	public Direction getOrientation() {
+		return orientation;
+	}
+
+	/**
+	 * @param orientation the orientation to set
+	 */
+	public void setOrientation(Direction orientation) {
+		this.orientation = orientation;
 	}
 
 	/**
@@ -62,5 +82,12 @@ public class Player {
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	/**
+	 * @return the room
+	 */
+	public Room getRoom() {
+		return location.getRoom();
 	}
 }

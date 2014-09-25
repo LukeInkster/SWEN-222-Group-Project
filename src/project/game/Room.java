@@ -1,9 +1,9 @@
 package project.game;
 
 public class Room {
-	private int roomWidth = 10;
-	private int roomHeight = 10;
-	private Location[][] grid = new Location[roomWidth][roomHeight];
+	public static final int ROOM_WIDTH = 9;
+	public static final int ROOM_HEIGHT = 9;
+	private Location[][] grid = new Location[ROOM_WIDTH][ROOM_HEIGHT];
 	
 	// Tile controls the placement of doors in the room
 	private Tile tile;
@@ -26,7 +26,7 @@ public class Room {
 	 * if the x or y coordinate is outside the bounds of the room
 	 */
 	public Location location(int x, int y){
-		if(x<0 || y<0 || x>=roomWidth || y>=roomHeight) return null;
+		if(x<0 || y<0 || x>=ROOM_WIDTH || y>=ROOM_HEIGHT) return null;
 		return grid[x][y];
 	}
 	
@@ -78,5 +78,12 @@ public class Room {
 	 */
 	public void setTile(Tile tile) {
 		this.tile = tile;
+	}
+	
+	public Location getDoorLoc(Direction direction){
+		if(direction == Direction.NORTH) return location(Room.ROOM_WIDTH/2, 0);
+		if(direction == Direction.EAST)  return location(Room.ROOM_WIDTH-1, Room.ROOM_HEIGHT/2);
+		if(direction == Direction.SOUTH) return location(Room.ROOM_WIDTH/2, Room.ROOM_HEIGHT-1);
+		else							 return location(0, Room.ROOM_HEIGHT/2);
 	}
 }

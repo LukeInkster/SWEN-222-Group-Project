@@ -37,6 +37,7 @@ public class Server extends Thread {
 			thread.start();
 			boolean done = false;
 			while(!done){
+				if(id >= 4) continue;
 				Socket client = socket.accept();
 				clients.put(id,  new PlayerConnection(client, new ObjectOutputStream(client.getOutputStream())));
 				ServerThread serverThread = new ServerThread(this, id, client);
