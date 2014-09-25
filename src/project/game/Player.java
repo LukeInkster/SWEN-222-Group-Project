@@ -1,13 +1,16 @@
 package project.game;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Player {
 	private static final int maxItems = 10;
 	private List<Item> items = new ArrayList<Item>();	
 	private Location location;	
 	private Direction orientation;
+	private Set<Room> roomsVisited = new HashSet<Room>();
 	
 	public Player(Location location){
 		this.setLocation(location);
@@ -89,5 +92,13 @@ public class Player {
 	 */
 	public Room getRoom() {
 		return location.getRoom();
+	}
+
+	/**
+	 *  Used for drawing minimap
+	 *  @return set of rooms visited by player
+	 */
+	public Set<Room> getRoomsVisited() {
+		return roomsVisited;
 	}
 }
