@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import project.game.Direction;
 import project.game.Door;
+import project.game.Game;
 import project.game.Location;
 import project.game.Player;
 import project.game.Room;
@@ -116,7 +117,7 @@ public class GameLogicTests {
 	}
 	
 	private Player dummyPlayer(){
-		return new Player(new Location(null, 0,0));
+		return new Player(1);
 	}
 	
 	// ============================================================= //
@@ -203,8 +204,55 @@ public class GameLogicTests {
 		assertFalse(t3.hasDoor(Direction.WEST));
 	}
 	
+	// ============================================================= //
+	// == MOVEMENT TESTS == //
+	// ============================================================= //
 	
-	
-	
+	@Test
+	public void testStandardMove() {
+		Game game = new Game();
+		Player p = new Player(1);
+		game.addPlayer(p);		
+		assertTrue(p.getLocation().equals(game.startLocation()));
+		
+		// Move one step EAST and ensure the player is in the correct location
+		assertTrue(game.movePlayer(p, Direction.EAST));		
+		Location oneStepEast = game.room(Game.GAME_WIDTH/2, Game.GAME_HEIGHT/2)
+							   .location(Room.ROOM_WIDTH/2+1, Room.ROOM_HEIGHT/2);
+		assertTrue(p.getLocation().equals(oneStepEast));
+	}
 
+	@Test
+	public void testDoorMove() {
+		Game game = new Game();
+		Player p = new Player(1);
+		game.addPlayer(p);		
+		
+		Room zeroZero = game.room(0, 0);
+		zeroZero.setTile(new Tile(true,true,true,true));
+		
+		Room zeroOne = game.room(0, 1);
+		zeroOne.setTile(new Tile(true,true,true,true));
+		
+		p.setLocation(zeroZero.getDoorLocation(Direction.SOUTH));
+		assertTrue(game.movePlayer(p, Direction.SOUTH));	
+				
+		Location oneStepSouth = zeroOne.getDoorLocation(Direction.NORTH);
+		assertTrue(p.getLocation().equals(oneStepSouth));
+	}
+
+	@Test
+	public void testInvalidMove() {
+		Game game = new Game();
+		Player p = new Player(1);
+		game.addPlayer(p);
+		Location start = game.startLocation().getRoom().location(0, 0); //Top left of start room
+		p.setLocation(start);
+
+		assertTrue(p.getLocation().equals(start));
+		assertFalse(game.movePlayer(p, Direction.NORTH));
+		assertTrue(p.getLocation().equals(start));
+	}
+	
+	
 }

@@ -1,30 +1,48 @@
 package project.game;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class Game implements Iterable<Player>{
-	private static final int MAX_PLAYERS = 4;
-	private static final int GAME_WIDTH = 6;
-	private static final int GAME_HEIGHT = 6;
+	// ------ CONSTANTS ------ //
+	public static final int MAX_PLAYERS = 4;
+	public static final int GAME_WIDTH = 6;
+	public static final int GAME_HEIGHT = 6;
 	
+	// ------ VARIABLES ------ //	
 	private Room[][] rooms = new Room[GAME_WIDTH][GAME_HEIGHT];
 	
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
+	private Room startRoom;
+	private Location startLocation;
+	
 	public Game(){
 		generateRooms();
+		// Set startLoc to the middle tile of the middle room
+		startLocation = (rooms[GAME_WIDTH/2][GAME_HEIGHT/2].location(Room.ROOM_WIDTH/2, Room.ROOM_HEIGHT/2));
 	}
 	
 	private void generateRooms() {
+		// choose a random x and y within the bounds of the game as the endRoom
 		int endX = (int)(Math.random()*GAME_WIDTH);
 		int endY = (int)(Math.random()*GAME_HEIGHT);
+		
 		for(int x=0;x<GAME_WIDTH;x++){
 			for(int y=0;y<GAME_HEIGHT;y++){
 				rooms[x][y] = new Room(x,y,(x==endX && y==endY));
 			}
-		}		
+		}
+		
+		// startRoom is middle room
+		startRoom = rooms[GAME_WIDTH/2][GAME_HEIGHT/2];		
+		// startRoom has doors on all walls
+		startRoom.setTile(new Tile(true,true,true,true));
+		// startLocation is middle location in startRoom
+		startLocation = startRoom.location(Room.ROOM_WIDTH/2, Room.ROOM_HEIGHT/2);
 	}
 
 	/**
@@ -38,7 +56,13 @@ public class Game implements Iterable<Player>{
 		return movePlayer(player(playerID),dir);
 	}
 
-	private boolean movePlayer(Player player, Direction dir){
+	/**
+	 * Moves the parameter player in the direction specified by the parameter direction
+	 * @param player The player to move
+	 * @param dir The direction to move
+	 * @return True if the move is successful, false otherwise
+	 */
+	public boolean movePlayer(Player player, Direction dir){
 		Location currentLoc = player.getLocation();
 		Room currentRoom = currentLoc.getRoom();
 		Location targetLoc = null;
@@ -107,9 +131,10 @@ public class Game implements Iterable<Player>{
 	 * @param player The player to add
 	 * @return True if the add is successful
 	 */
-	public boolean addPlayer(int playerID, Player player){
+	public boolean addPlayer(Player player){
 		if(this.players.size()>=MAX_PLAYERS) return false;
-		players.put(playerID, player);
+		players.put(player.getId(), player);
+		player.setLocation(startLocation);
 		return true;
 	}
 	
@@ -125,5 +150,33 @@ public class Game implements Iterable<Player>{
 	 */
 	public Iterator<Player> iterator() {
 		return players.values().iterator();
+	}
+
+	/**
+	 * @return the startLocation
+	 */
+	public Location startLocation() {
+		return startLocation;
+	}
+
+	/**
+	 * @return the startRoom
+	 */
+	public Room startRoom() {
+		return startRoom;
+	}
+	
+	/**
+	 * @return The player with the parameter playerID
+	 */
+	public Player getPlayer(int id){
+		return players.get(id);
+	}
+	
+	/**
+	 * @return The set of all players in the game
+	 */
+	public Set<Player> getPlayers(){
+		return new HashSet<Player>(players.values());
 	}
 }

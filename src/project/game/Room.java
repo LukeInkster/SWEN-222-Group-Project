@@ -1,8 +1,12 @@
 package project.game;
 
 public class Room {
+	// ------ CONSTANTS ------ //
 	public static final int ROOM_WIDTH = 9;
 	public static final int ROOM_HEIGHT = 9;
+	
+	// ------ VARIABLES ------ //	
+	// Grid of locations within the room
 	private Location[][] locations = new Location[ROOM_WIDTH][ROOM_HEIGHT];
 	
 	// Tile controls the placement of doors in the room
@@ -19,7 +23,7 @@ public class Room {
 		this.x = x;
 		this.y = y;
 		this.isEnd = isEnd;
-		generateLocations();
+		this.generateLocations();
 	}
 	
 	private void generateLocations(){
@@ -102,7 +106,8 @@ public class Room {
 	
 	/**
 	 * Returns the Location adjacent to the parameter Location 
-	 * in the parameter Direction
+	 * in the parameter Direction, null if there is no adjacent
+	 * Location in the given Direction.
 	 */
 	public Location adjecentLocation(Location loc, Direction dir){
 		if(dir==Direction.NORTH)	return location(loc.getY(),loc.getX()-1);

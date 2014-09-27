@@ -8,12 +8,13 @@ import java.util.Set;
 public class Player {
 	private static final int maxItems = 10;
 	private List<Item> items = new ArrayList<Item>();	
-	private Location location;	
+	private Location location = null;	
 	private Direction orientation;
 	private Set<Room> roomsVisited = new HashSet<Room>();
+	private int id;
 	
-	public Player(Location location){
-		this.setLocation(location);
+	public Player(int id){
+		this.setId(id);
 		this.setOrientation(Direction.NORTH);
 	}
 	
@@ -100,5 +101,19 @@ public class Player {
 	 */
 	public Set<Room> getRoomsVisited() {
 		return roomsVisited;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 }
