@@ -1,10 +1,12 @@
 package project.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import project.GUI.MiniMap;
 import project.game.Direction;
 import project.game.Door;
 import project.game.Game;
@@ -204,6 +206,16 @@ public class GameLogicTests {
 		assertFalse(t3.hasDoor(Direction.WEST));
 	}
 	
+	@Test
+	public void testGetFilename() {
+		Tile t1 = new Tile(false,true,false,false);
+		Tile t2 = new Tile(true,true,true,true);
+				
+		assertTrue(t1.getFilename().equals("Map1.png"));
+		assertTrue(t2.getFilename().equals("Map0123.png"));
+		assertFalse(t2.getFilename().equals("Map123.png"));
+	}
+	
 	// ============================================================= //
 	// == MOVEMENT TESTS == //
 	// ============================================================= //
@@ -253,6 +265,15 @@ public class GameLogicTests {
 		assertFalse(game.movePlayer(p, Direction.NORTH));
 		assertTrue(p.getLocation().equals(start));
 	}
+		
+	// ============================================================= //
+	// == MINIMAP TESTS == //
+	// ============================================================= //
 	
-	
+	@Test
+	public void testGetWidth() {
+		
+		assertEquals(MiniMap.getWidth(),90);
+		
+	}
 }

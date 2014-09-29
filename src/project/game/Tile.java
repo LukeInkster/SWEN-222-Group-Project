@@ -48,4 +48,18 @@ public class Tile extends Item {
 			doors[2]||other.doors[2],
 			doors[3]||other.doors[3]);
 	}
+	
+	/**
+	 * returns the name of the map, "mapX.png" wherex is up to four ints signifying a door (0=north)
+	 * @return filename
+	 */
+	public String getFilename(){
+		String str = "Map";
+		if(doors[0]){str = str+"0";}
+		if(doors[1]){str = str+"1";}
+		if(doors[2]){str = str+"2";}
+		if(doors[3]){str = str+"3";}
+		str = str + ".png";
+		return str;
+	}
 }
