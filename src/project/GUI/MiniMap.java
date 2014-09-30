@@ -37,7 +37,7 @@ public class MiniMap {
 	 */
 	public void draw(Graphics g){
 			Set<Room> roomsVisited = player.getRoomsVisited();
-			g.translate(0,Display.height); //translate by height of display(to draw below
+			g.translate(0,Display.HEIGHT); //translate by height of display(to draw below
 		for(Room room:roomsVisited){
 			g.setColor(Color.white);
 			g.drawRect(room.getX(), room.getY(), gridSize, gridSize);

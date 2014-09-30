@@ -40,7 +40,7 @@ public class InventoryBar {
 	 */
 	public void draw(Graphics g){
 			List<Item> items = player.getItems();
-			g.translate(0,Display.height); //translate by height of display(to draw below
+			g.translate(0,Display.HEIGHT); //translate by height of display(to draw below
 			g.translate(0,MiniMap.getWidth()); //translate by height of display(to draw below
 		for(int i = 0;i<items.size();i++){
 			String str = "assets"+items.get(i).getFilename();
