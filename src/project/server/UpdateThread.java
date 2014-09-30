@@ -21,7 +21,7 @@ public class UpdateThread extends Thread {
 		Update update = null;
 		while(true){
 			try {
-				update = server.updates.take();
+				update = server.getUpdates().take();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -32,6 +32,8 @@ public class UpdateThread extends Thread {
 			
 			if(evt instanceof DummyEvent){
 				System.out.println(this + "Processing Dummy Event:: " + ((DummyEvent)evt).message);
+				System.out.println(this + "Connected Clients: " + server.getClients().size());
+				sendAllClients(new DummyEvent());
 			}			
 			
 		}
@@ -58,9 +60,11 @@ public class UpdateThread extends Thread {
 	 * @param event
 	 */
 	public void sendAllClients(Event event){
-		for(PlayerConnection player : server.clients.values())
+		for(PlayerConnection player : server.getClients().values()){
 			sendClient(event, player);
+			System.out.println("Sent Event to Client: " + player);
 		}
+	}
 	
 	/**
 	 * Sends events to every client, except certain players.
@@ -68,9 +72,8 @@ public class UpdateThread extends Thread {
 	 * @param p Players to be ignored.
 	 */
 	
-	public void sendAllClients(Event event, PlayerConnection... p){
-		List<PlayerConnection> exceptions = Arrays.asList(p);
-		for(PlayerConnection player : server.clients.values()){
+	public void sendAllClients(Event event, List<PlayerConnection> exceptions){
+		for(PlayerConnection player : server.getClients().values()){
 			if(exceptions.contains(player)) continue;
 			sendClient(event, player);
 		}
@@ -79,10 +82,5 @@ public class UpdateThread extends Thread {
 	public String toString(){
 		return "[UpdateThread] ";
 	}
-
 	
-	
-	
-	
-
 }

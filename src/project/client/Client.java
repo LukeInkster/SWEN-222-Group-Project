@@ -1,11 +1,14 @@
 package project.client;
 
+import project.net.AcknowledgeEvent;
 import project.net.DummyEvent;
 import project.net.Event;
 
 public class Client {
 	
 	private Connection connection;
+	
+	boolean connectionAcknowledged = false;
 	
 	private String user;
 	
@@ -18,11 +21,15 @@ public class Client {
 	
 	public void update(){
 		for(Event e : connection.poll()){
-			if(e instanceof DummyEvent){
-				System.out.println(this + "Dummy Event Recieved!" +  (((DummyEvent)e).message));
+			if (!connectionAcknowledged)
+				if(e instanceof AcknowledgeEvent){
+				connectionAcknowledged = true;
+				System.out.println(this + "ACK from Server recieved. Connection Accepted");
 			}else{
-				System.out.println(this + "Unrecognised Packet Recieved!");
+				continue;
 			}
+			
+			// TODO: Handle Client Side events HERE!
 		}
 	}
 	

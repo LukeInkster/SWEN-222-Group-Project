@@ -36,13 +36,18 @@ public class ServerThread extends Thread {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
+					try {
+						this.join();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
 				}
 				
 				if(!(obj instanceof Event)) continue; // <-- Means we have recieved an object we shouldn't have!
 				
 				Event evt = (Event) obj;
 				Update update = new Update(id, evt);
-				server.updates.add(update);
+				server.getUpdates().add(update);
 			}
 	}
 

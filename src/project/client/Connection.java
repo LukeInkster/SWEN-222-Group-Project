@@ -38,9 +38,10 @@ public class Connection extends Thread{
 			System.out.println(this + "[NOTIFY] Connection on " + ip.toString() + ":" + port);
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
-		}catch(Exception e){
-			e.printStackTrace();
-			// Possible Exceptions: UnknownHost and IOException.
+		}catch(IOException e){
+			//e.printStackTrace();
+			System.out.println("Connection Refused! Terminating Program");
+			System.exit(0); //TODO: Redirect to a pane that announces that the server cannot be reached.
 		}
 	}
 	
@@ -71,6 +72,8 @@ public class Connection extends Thread{
 		}			
 	}
 	
+	private int i = 0;
+	
 	public Event nextEvent(){
 		Object in = null;
 		
@@ -80,7 +83,7 @@ public class Connection extends Thread{
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(this + "[ERROR] " + e.getMessage().toString());
 			return null;
 		}
 		
