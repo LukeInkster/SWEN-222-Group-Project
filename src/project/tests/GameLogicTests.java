@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Graphics;
+
 import org.junit.Test;
 
+import project.GUI.InventoryBar;
 import project.GUI.MiniMap;
 import project.game.Direction;
 import project.game.Door;
@@ -276,4 +279,11 @@ public class GameLogicTests {
 		assertEquals(MiniMap.getWidth(),90);
 		
 	}
+	
+	// ============================================================= //
+	// == INVENTORYBAR TESTS == //
+	// ============================================================= //
+	
+	
+	
 }

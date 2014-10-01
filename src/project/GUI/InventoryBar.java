@@ -43,7 +43,8 @@ public class InventoryBar {
 			g.translate(0,Display.HEIGHT); //translate by height of display(to draw below
 			g.translate(0,MiniMap.getWidth()); //translate by height of display(to draw below
 		for(int i = 0;i<items.size();i++){
-			String str = "assets"+items.get(i).getFilename();
+			String str = "assets\\"+items.get(i).getFilename();
+			System.out.println(str);
 			Image img = loadImage(new File(str));
 			g.drawImage(img, i*(slotSize+buffX), buffY, imageSize, imageSize,null);
 		}
