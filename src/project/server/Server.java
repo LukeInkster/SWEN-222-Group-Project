@@ -15,6 +15,7 @@ import project.game.Game;
 import project.game.Player;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
+import project.utils.GameSerialize;
 
 /**
  * Server object that extends Thread. Class handles all new connections to the Server, and outputs them to ServerThread and UpdateThreads.
@@ -67,6 +68,7 @@ public class Server extends Thread {
 				thread.sendClient(ack, getClients().get(id));
 				// We'll add the client as a player to the game.
 				game.addPlayer(new Player(id));
+				GameSerialize.save(game.getPlayer(id));
 				System.out.println("[SERVER] Client Connected! ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
 				id++;
 			}

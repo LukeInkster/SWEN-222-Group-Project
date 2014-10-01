@@ -3,6 +3,7 @@ package project.utils;
 import project.game.Item;
 import project.game.Key;
 import project.game.Player;
+import project.game.Room;
 import project.game.Tile;
 
 /**
@@ -19,6 +20,8 @@ public class GameSerialize {
 		StringBuilder s = new StringBuilder();
 		// -- PLAYER SAVE:
 		s.append("PLAYER{");
+		// -- ITEMS
+		s.append("ITEMS{");
 		for(Item item : player.getItems()){
 			// -- TILE
 			if(item instanceof Tile){
@@ -33,8 +36,40 @@ public class GameSerialize {
 				s.append("KEY{}");
 			}
 		}
-		
+		s.append("}");
+		// -- LOCATION
+		s.append("LOCATION{");
+			s.append("x{" + player.getLocation().getX() + "}");
+			s.append("y{" + player.getLocation().getY() + "}");
+			s.append("ROOM{");
+				s.append("x{" + player.getLocation().getRoom().getX() + "}");
+				s.append("y{" + player.getLocation().getRoom().getX() + "}");
+				s.append("ISEND{" + player.getLocation().getRoom().isEnd() + "}");
+			s.append("}");
+		s.append("}");
+		// -- ORIENTATION
+		s.append("ORIENTATION{" + player.getOrientation().toString() + "}");
+		// -- ROOMS VISITED
+		s.append("ROOMSVISTED{");
+		for(Room room : player.getRoomsVisited()){
+			s.append("ROOM{");
+				s.append("x{" + room.getX() + "}");
+				s.append("y{" + room.getX() + "}");
+				s.append("ISEND{" + room.isEnd() + "}");
+			s.append("}");
+		}
+		s.append("}");
+		// -- ID
+		s.append("ID{" + player.getId() + "}");
+		s.append("}");
+		System.out.println(s.toString());
 		return s.toString();
+	}
+	
+	public static Player load(String input){
+		Player res = null;
+		
+		return res;
 	}
 
 }
