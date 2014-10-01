@@ -55,7 +55,7 @@ public class Tile extends Item {
 	 */
 	public String getFilename(){
 		StringBuilder sb = new StringBuilder();
-		sb.append("Map");
+		sb.append("maps\\Map");
 		if(doors[0]){sb.append("0");}
 		if(doors[1]){sb.append("1");}
 		if(doors[2]){sb.append("2");}
