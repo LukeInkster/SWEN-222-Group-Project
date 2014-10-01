@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import project.net.Event;
+import project.server.Server;
 
 public class Connection extends Thread{
 	
@@ -20,8 +21,6 @@ public class Connection extends Thread{
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	
-	private int port;
-	
 	private boolean running = true;
 	
 	private final LinkedBlockingQueue<Event> events = new LinkedBlockingQueue<Event>();
@@ -30,12 +29,11 @@ public class Connection extends Thread{
 		
 		localID = worldID;
 		worldID++;
-		
-		this.port = 12608;
+
 		try{
 			InetAddress ip = InetAddress.getByName(addr);
-			this.socket = new Socket(ip, port);
-			System.out.println(this + "[NOTIFY] Connection on " + ip.toString() + ":" + port);
+			this.socket = new Socket(ip, Server.PORT_NUMBER);
+			System.out.println(this + "[NOTIFY] Connection on " + ip.toString() + ":" + Server.PORT_NUMBER);
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 		}catch(IOException e){
@@ -83,7 +81,12 @@ public class Connection extends Thread{
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
-			System.out.println(this + "[ERROR] " + e.getMessage().toString());
+			if(++i == 10) {
+				System.out.println(this + "[ERROR] " + e.getMessage().toString() + " Closing Connection");
+				 running = false;
+			}else{
+				System.out.println(this + "[ERROR] " + e.getMessage().toString());
+			}
 			return null;
 		}
 		

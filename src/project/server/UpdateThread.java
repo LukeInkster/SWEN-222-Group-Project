@@ -62,7 +62,6 @@ public class UpdateThread extends Thread {
 	public void sendAllClients(Event event){
 		for(PlayerConnection player : server.getClients().values()){
 			sendClient(event, player);
-			System.out.println("Sent Event to Client: " + player);
 		}
 	}
 	

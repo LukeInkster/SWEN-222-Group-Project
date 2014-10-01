@@ -1,6 +1,7 @@
 package project.client;
 
 import project.net.AcknowledgeEvent;
+import project.net.DenyConnectionEvent;
 import project.net.DummyEvent;
 import project.net.Event;
 
@@ -25,6 +26,8 @@ public class Client {
 				if(e instanceof AcknowledgeEvent){
 				connectionAcknowledged = true;
 				System.out.println(this + "ACK from Server recieved. Connection Accepted");
+			}else if(e instanceof DenyConnectionEvent){
+				System.out.println(((DenyConnectionEvent)e).toString());
 			}else{
 				continue;
 			}
