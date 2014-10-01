@@ -1,5 +1,7 @@
 package project.client;
 
+import java.util.List;
+
 import project.game.*;
 
 /**
@@ -60,4 +62,6 @@ public class User {
 	public void setRoom(Room r){
 		room = r;
 	}
+
+
 }

@@ -14,8 +14,8 @@ import project.game.Room;
 public class MiniMap {
 	
 	private static int numRooms = 9;
-	private static int gridSize = 22;
-	private String[][] mapGrid = new String[numRooms][numRooms]; //string for now, maybe image to represent rooms doors later
+	private static int roomSize = 22;
+	//private String[][] mapGrid = new String[numRooms][numRooms]; //string for now, maybe image to represent rooms doors later
 	private Player player;
 	
 	public MiniMap(Player player){
@@ -26,7 +26,7 @@ public class MiniMap {
 	 * @return width of Map, to help draw inventory next to it
 	 */
 	public static int getWidth(){
-		return numRooms*gridSize;
+		return numRooms*roomSize;
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class MiniMap {
 			Set<Room> roomsVisited = player.getRoomsVisited();
 		for(Room room:roomsVisited){
 			g.setColor(Color.white);
-			g.drawRect(room.getX(), room.getY(), gridSize, gridSize);
+			g.fillRect(room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize);
 		}
 	}
 }

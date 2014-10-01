@@ -4,12 +4,31 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import project.client.User;
+import project.game.Door;
+import project.game.Key;
+import project.game.Location;
 import project.game.Player;
+import project.game.Room;
+import project.game.Tile;
 
 public class Panel extends JPanel{
 
@@ -52,6 +71,10 @@ public class Panel extends JPanel{
 		//TODO : send player to inventory.
 		inventory = new InventoryBar(user.getPlayer());
 		
+		
+		//create Listeners
+		createListeners();
+				
 		//packs the frame to its contents.
 		frame.pack();
 		
@@ -63,8 +86,87 @@ public class Panel extends JPanel{
 		
 		//Creates and starts the graphics refresher.
 		new GUIUpdater(this).start();
+		
+		
 	}
 	
+	private void createListeners() {
+		//Menu Bar
+		JMenuBar menuBar;
+		JMenu menu;
+
+		menuBar = new JMenuBar();
+		menu = new JMenu("File");
+		menuBar.add(menu);
+		JMenuItem menuItem = new JMenuItem("Find game");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO : something
+			}
+		});
+		menu.add(menuItem);
+		frame.setJMenuBar(menuBar);
+		
+		//key listener
+		InputMap iMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap aMap = getActionMap();
+		iMap.put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
+		iMap.put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
+		iMap.put(KeyStroke.getKeyStroke("UP"), "moveUp");
+		iMap.put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
+		aMap.put("moveLeft", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: tell server we want to move left
+			}
+		});
+		aMap.put("moveRight", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: tell server we want to move right
+			}
+		});
+		aMap.put("moveUp", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: tell server we want to move up
+			}
+		});
+		aMap.put("moveDown", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: tell server we want to move down
+			}
+		});
+		
+		//mouse Listener
+		addMouseListener(new MouseListener(){
+			@Override
+			public void mousePressed(MouseEvent e){
+				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
+				//TODO find object clicked on and send info to server
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+							}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+	}
+
 	/**
 	 * This method is used for updating the display with the current state of the game.
 	 */
@@ -147,7 +249,24 @@ public class Panel extends JPanel{
 	}
 	
 	public static void main(String[] args){
-		User u = new User(new Player(69));
+		Player p = new Player(80085);
+		//testing hud drawing
+		p.addItem(new Door()); 
+		p.addItem(new Tile(true,true,true,true)); 
+		p.addItem(new Tile(true,false,true,false)); 
+		p.addItem(new Tile(false,true,true,true)); 
+		p.addItem(new Tile(true,false,true,false)); 
+		p.addItem(new Tile(false,true,true,true)); 
+		p.addItem(new Tile(true,false,true,false)); 
+		p.addItem(new Tile(false,true,true,true)); 
+		p.addItem(new Key()); 
+		p.setLocation(new Location(new Room(4, 4, false), 1, 1));
+		p.setLocation(new Location(new Room(4, 5, false), 1, 1));
+		p.setLocation(new Location(new Room(4, 3, false), 1, 1));
+		p.setLocation(new Location(new Room(3, 3, false), 1, 1));
+		p.setLocation(new Location(new Room(5, 4, false), 1, 1));
+
+		User u = new User(p);
 		new Panel(u);
 	}
 }

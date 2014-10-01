@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Player {
-	private static final int maxItems = 10;
+	private static final int maxItems = 12;
 	private List<Item> items = new ArrayList<Item>();	
 	private Location location = null;	
 	private Direction orientation;
@@ -86,6 +86,7 @@ public class Player {
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+		roomsVisited.add(location.getRoom());
 	}
 
 	/**

@@ -15,11 +15,11 @@ import project.game.Room;
 
 public class InventoryBar {
 	
-	private int numSlots = 10;//number of inventory slots per player
+	private int numSlots = 10;//number of inventory slots perplayer
 	private int width;
-	private int slotSize = 60; //amount of space set aside for each item in inventory(max ten)
-	private int buffX = 10;//space around each item
-	private int buffY = 10;
+	private int slotSize = 100; //amount of space set aside for each item in inventory(max ten)
+	private int buffX = 20;//space around each item
+	private int buffY = 20;
 	private int imageSize = slotSize-2*buffY;
 	private Player player;
 	
@@ -41,10 +41,13 @@ public class InventoryBar {
 	public void draw(Graphics g){
 			List<Item> items = player.getItems();
 		for(int i = 0;i<items.size();i++){
-			String str = "assets\\"+items.get(i).getFilename();
-			System.out.println(str);
-			Image img = loadImage(new File(str));
-			g.drawImage(img, i*(slotSize+buffX), buffY, imageSize, imageSize,null);
+			StringBuilder sb = new StringBuilder();
+			sb.append("assets\\");
+			sb.append(items.get(i).getFilename());
+			Image img = loadImage(new File(sb.toString()));
+			int row = 0;
+			if(i>6){row = 1;};
+			g.drawImage(img, (i-7*row)*(slotSize)+buffX, buffY+slotSize*row, imageSize, imageSize,null);
 		}
 	}
 	

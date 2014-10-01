@@ -54,12 +54,13 @@ public class Tile extends Item {
 	 * @return filename
 	 */
 	public String getFilename(){
-		String str = "Map";
-		if(doors[0]){str = str+"0";}
-		if(doors[1]){str = str+"1";}
-		if(doors[2]){str = str+"2";}
-		if(doors[3]){str = str+"3";}
-		str = str + ".png";
-		return str;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Map");
+		if(doors[0]){sb.append("0");}
+		if(doors[1]){sb.append("1");}
+		if(doors[2]){sb.append("2");}
+		if(doors[3]){sb.append("3");}
+		sb.append(".png");
+		return sb.toString();
 	}
 }
