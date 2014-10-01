@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -77,7 +78,7 @@ public class Server extends Thread {
 	
 	public synchronized void removeClient(int id){
 		clients.remove(id);
-		game.getPlayers().remove(game.player(id));
+		game.removePlayer(id);
 	}
 	
 	public synchronized String status(){

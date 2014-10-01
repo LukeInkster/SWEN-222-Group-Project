@@ -180,4 +180,8 @@ public class Game implements Iterable<Player>{
 	public Set<Player> getPlayers(){
 		return new HashSet<Player>(players.values());
 	}
+
+	public void removePlayer(int id){
+		players.remove(id);
+	}
 }

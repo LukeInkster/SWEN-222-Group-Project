@@ -63,4 +63,8 @@ public class Tile extends Item {
 		sb.append(".png");
 		return sb.toString();
 	}
+	
+	public boolean[] getDoors(){
+		return doors;
+	}
 }

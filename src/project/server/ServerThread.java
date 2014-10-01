@@ -22,12 +22,12 @@ public class ServerThread extends Thread {
 		this.socket = socket;
 		this.server = server;
 		this.id = id;
-		
 		setDaemon(true);
 	}
 	
 	private long lastIncoming;
-	private static final long MAX_TIMEOUT = 30000;
+	
+	public static final long MAX_TIMEOUT = 10000; // Server will kick any player it cannot connect for longer than 10 seconds.
 	
 	public void run(){
 		Object obj = null;
@@ -45,15 +45,14 @@ public class ServerThread extends Thread {
 					e.printStackTrace();
 				} catch (IOException e) {
 					//e.printStackTrace();
-					if(System.currentTimeMillis() - lastIncoming >= MAX_TIMEOUT){
+					long time = (System.currentTimeMillis() - lastIncoming);
+					if(time >= MAX_TIMEOUT){
 						server.removeClient(id);
 						System.out.println(this + "Connection Lost - Removing Player");
 						System.out.println(server.status());
 						return;
-					}else{
-						System.out.println(this + "Connection Lost. Retrying." + (System.currentTimeMillis() - lastIncoming) + "Since last Incoming.");
-						continue;
 					}
+					continue;
 				}
 				
 				if(!(obj instanceof Event)) continue; 						// Means we have recieved an object we shouldn't have...

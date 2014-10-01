@@ -22,13 +22,19 @@ public class Client {
 	
 	public void update(){
 		for(Event e : connection.pull()){
-			if (!connectionAcknowledged)
+			
+			// -- INITIAL CONNECTIION CHECKS.
+			if (!connectionAcknowledged){
+				// First we should check to see if it's an acknowledgment from the server saying that they cnba
 				if(e instanceof AcknowledgeEvent){
-				connectionAcknowledged = true;
-				System.out.println(this + "ACK from Server recieved. Connection Accepted");
-			}else if(e instanceof DenyConnectionEvent){
-				System.out.println(((DenyConnectionEvent)e).toString());
-			}else continue;
+					connectionAcknowledged = true;
+					System.out.println(this + "ACK from Server recieved. Connection Accepted");
+				}else if(e instanceof DenyConnectionEvent){
+					System.out.println(((DenyConnectionEvent)e).toString());
+				}else continue;
+			}
+			
+			// -- CLIENT SIDE EDITS.
 			
 			// TODO: Handle Client Side events HERE!
 		
