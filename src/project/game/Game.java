@@ -24,6 +24,7 @@ public class Game implements Iterable<Player>{
 		generateRooms();
 		// Set startLoc to the middle tile of the middle room
 		startLocation = (rooms[GAME_WIDTH/2][GAME_HEIGHT/2].location(Room.ROOM_WIDTH/2, Room.ROOM_HEIGHT/2));
+		System.out.println("[GAME] Game started!");
 	}
 	
 	private void generateRooms() {

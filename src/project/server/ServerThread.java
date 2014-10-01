@@ -6,6 +6,12 @@ import java.net.Socket;
 
 import project.net.Event;
 
+/**
+ * ServerThread: Takes incoming objects, and sends it to the change queue on the server.
+ * Based on the Multithreaded Server tutorial by Jakob Jenkov: http://tutorials.jenkov.com/java-multithreaded-servers/multithreaded-server.html
+ * @author Jack
+ *
+ */
 public class ServerThread extends Thread {
 	
 	private Server server;
@@ -19,6 +25,9 @@ public class ServerThread extends Thread {
 		
 		setDaemon(true);
 	}
+	
+	private long lastIncoming;
+	private static final long MAX_TIMEOUT = 30000;
 	
 	public void run(){
 		Object obj = null;
@@ -35,20 +44,27 @@ public class ServerThread extends Thread {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					e.printStackTrace();
-					try {
-						this.join();
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
+					//e.printStackTrace();
+					if(System.currentTimeMillis() - lastIncoming >= MAX_TIMEOUT){
+						server.removeClient(id);
+						System.out.println(this + "Connection Lost - Removing Player");
+						System.out.println(server.status());
+						return;
+					}else{
+						System.out.println(this + "Connection Lost. Retrying." + (System.currentTimeMillis() - lastIncoming) + "Since last Incoming.");
+						continue;
 					}
 				}
 				
-				if(!(obj instanceof Event)) continue; // <-- Means we have recieved an object we shouldn't have!
+				if(!(obj instanceof Event)) continue; 						// Means we have recieved an object we shouldn't have...
+				else server.getUpdates().add(new Update(id, (Event)obj));	// Else, add it to the change queue on the server thread!
 				
-				Event evt = (Event) obj;
-				Update update = new Update(id, evt);
-				server.getUpdates().add(update);
+				lastIncoming = System.currentTimeMillis();
 			}
+	}
+	
+	public String toString(){
+		return "[ServerThread # " + id + "] ";
 	}
 
 

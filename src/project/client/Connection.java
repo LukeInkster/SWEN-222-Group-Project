@@ -18,6 +18,7 @@ public class Connection extends Thread{
 	private int localID;
 	
 	private Socket socket;
+	
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	
@@ -37,13 +38,12 @@ public class Connection extends Thread{
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 		}catch(IOException e){
-			//e.printStackTrace();
-			System.out.println("Connection Refused! Terminating Program");
+			System.out.println(this + "[ERROR] Connection Refused! Terminating Program");
 			System.exit(0); //TODO: Redirect to a pane that announces that the server cannot be reached.
 		}
 	}
 	
-	public List<Event> poll(){
+	public List<Event> pull(){
 		int items = events.size();
 		List<Event> ret = new ArrayList<Event>(items);
 		events.drainTo(ret, items);
@@ -62,10 +62,7 @@ public class Connection extends Thread{
 	public void run(){
 		while (running){
 			Event currentEvent = nextEvent();
-			if(currentEvent == null){
-				//System.err.println(this + "[ERROR] Client Recieved null!");
-				continue;
-			}
+			if(currentEvent == null) continue;
 			events.offer(currentEvent);
 		}			
 	}
@@ -74,16 +71,16 @@ public class Connection extends Thread{
 	
 	public Event nextEvent(){
 		Object in = null;
-		
 		try {
 			in = input.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			// If the connection is lost, we should return null. If we have no connection whatsoever, we should shut down the connection.
 			if(++i == 10) {
-				System.out.println(this + "[ERROR] " + e.getMessage().toString() + " Closing Connection");
-				 running = false;
+				System.out.println(this + "[ERROR] " + e.getMessage().toString() + ": Closing Connection");
+				running = false;
 			}else{
 				System.out.println(this + "[ERROR] " + e.getMessage().toString());
 			}
@@ -91,7 +88,7 @@ public class Connection extends Thread{
 		}
 		
 		if(!(in instanceof Event)){
-			System.err.println(this + "[ERROR] Client Recieved Error that is not an event!");
+			System.out.println(this + "[ERROR] Client Recieved Error that is not an event!");
 			return null;
 		}
 		
