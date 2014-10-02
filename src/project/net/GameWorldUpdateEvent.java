@@ -6,5 +6,11 @@ package project.net;
  *
  */
 public class GameWorldUpdateEvent implements Event {
+	public String data;
+
+	public GameWorldUpdateEvent(String data){
+		this.data = data;
+	}
+
 
 }

@@ -7,7 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -15,6 +14,7 @@ import project.game.Game;
 import project.game.Player;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
+import project.net.GameWorldUpdateEvent;
 import project.utils.GameSerialize;
 
 /**
@@ -68,7 +68,8 @@ public class Server extends Thread {
 				thread.sendClient(ack, getClients().get(id));
 				// We'll add the client as a player to the game.
 				game.addPlayer(new Player(id));
-				GameSerialize.save(game.getPlayer(id));
+				//GameSerialize.save(game.getPlayer(id));
+				GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameSerialize.save(game.getPlayer(id)));
 				System.out.println("[SERVER] Client Connected! ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
 				id++;
 			}
