@@ -16,11 +16,14 @@ import project.utils.GameUtils;
 
 public class InventoryBar {
 
+	private int WIDTH = 600;
+	private int HEIGHT = 200;
 	private int numSlots = 10;//number of inventory slots perplayer
 	private int width;
-	private int slotSize = 100; //amount of space set aside for each item in inventory(max ten)
-	private int buffX = 20;//space around each item
-	private int buffY = 20;
+	private int slotSize = 80; //amount of space set aside for each item in inventory(max ten)
+	private int edgeBuff = 20;
+	private int buffX = 10;//space around each item
+	private int buffY = 10;
 	private int imageSize = slotSize-2*buffY;
 	private Player player;
 
@@ -40,7 +43,9 @@ public class InventoryBar {
 	 * @param g
 	 */
 	public void draw(Graphics g){
+			g.drawImage(GameUtils.loadImage(new File("assets\\InventoryBack.png")),0,0,WIDTH,HEIGHT,null);
 			List<Item> items = player.getItems();
+			g.translate(edgeBuff, edgeBuff);
 		for(int i = 0;i<items.size();i++){
 			StringBuilder sb = new StringBuilder();
 			//sb.append("assets/");

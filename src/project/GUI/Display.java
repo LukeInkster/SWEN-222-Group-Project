@@ -23,12 +23,13 @@ public class Display {
 
 	//These integers are used for the isometric calculations
 	private int slantWidth = 15, slantHeight = 0, tileWidth = 45, tileHeight = 30;
+	private int wallHeight = 60;
 
 	//The user that the display belongs to.
 	private User user;
 
 	//The images to be used
-	Image tile = GameUtils.loadImage(new File("assets//TileTest.png"));
+	Image tile = GameUtils.loadImage(new File("assets//TileTest2.png"));
 	Image wall = GameUtils.loadImage(new File("assets//Wall2.png"));
 	Image wallIso = GameUtils.loadImage(new File("assets//WallIso2.png"));
 
@@ -44,8 +45,11 @@ public class Display {
 
 	public void draw(Graphics g){
 
+		//black background
+		g.drawImage(GameUtils.loadImage(new File("assets\\Smoke.png")),0,0,WIDTH,HEIGHT,null);
+		
 		//translate to center the room
-		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2));
+		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2);
 
 
 		//now loop through the rooms locations and draw the floor and if needed walls.
@@ -53,14 +57,14 @@ public class Display {
 		for(int y=0;y<Room.ROOM_HEIGHT;y++){
 			for(int x=0;x<Room.ROOM_WIDTH;x++){
 
-				//TODO : checks to see if there is a wall above if so draws it.
+				//TODO : checks to see if there is a door above if so draws it.
 				if(y==0){
-					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -45, tileWidth, 45, null);
+					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -wallHeight, tileWidth, wallHeight, null);
 				}
 
-				//TODO : checks to see if there is a wall on the side if so draws it
+				//TODO : checks to see if there is a door on the side if so draws it
 				if(x==0 ){
-					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -45+(y*tileHeight), slantWidth, 45+30, null);
+					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -wallHeight+(y*tileHeight), slantWidth, wallHeight+30, null);
 				}
 				
 				//Sets the color for the test tiles and then draws them
@@ -78,6 +82,6 @@ public class Display {
 		}
 
 		//now undo transitions back to original point
-		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)));
+		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2));
 	}
 }

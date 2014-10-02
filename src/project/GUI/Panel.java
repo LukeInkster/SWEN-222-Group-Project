@@ -221,7 +221,7 @@ public class Panel extends JPanel{
 		map.draw(offgc);
 
 		//now translate to the new object to be drawn
-		offgc.translate( MiniMap.WIDTH, 0);
+		offgc.translate( MiniMap.WIDTH-1, -1);
 
 		//draws the inventory.
 		inventory.draw(offgc);
