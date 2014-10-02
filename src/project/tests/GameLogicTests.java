@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Graphics;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -13,10 +14,13 @@ import project.GUI.MiniMap;
 import project.game.Direction;
 import project.game.Door;
 import project.game.Game;
+import project.game.Item;
+import project.game.Key;
 import project.game.Location;
 import project.game.Player;
 import project.game.Room;
 import project.game.Tile;
+import project.utils.GameSerialize;
 
 public class GameLogicTests {
 	
@@ -214,9 +218,9 @@ public class GameLogicTests {
 		Tile t1 = new Tile(false,true,false,false);
 		Tile t2 = new Tile(true,true,true,true);
 				
-		assertTrue(t1.getFilename().equals("Map1.png"));
-		assertTrue(t2.getFilename().equals("Map0123.png"));
-		assertFalse(t2.getFilename().equals("Map123.png"));
+		assertTrue(t1.getFilename().equals("maps\\Map1.png"));
+		assertTrue(t2.getFilename().equals("maps\\Map0123.png"));
+		assertFalse(t2.getFilename().equals("maps\\Map123.png"));
 	}
 	
 	// ============================================================= //
@@ -276,14 +280,39 @@ public class GameLogicTests {
 	@Test
 	public void testGetWidth() {
 		
-		assertEquals(MiniMap.getWidth(),90);
+		assertEquals(MiniMap.getWidth(),198);
 		
 	}
 	
 	// ============================================================= //
-	// == INVENTORYBAR TESTS == //
+	// == GAMESERIALIZE TESTS == //
 	// ============================================================= //
 	
+	@Test
+	public void testSave() {
+		Player player= new Player(69);
+		player.addItem(new Key());
+		player.setLocation(new Location(new Room(4,4,false),4,4));
+		player.setOrientation(Direction.NORTH);
+		String save = GameSerialize.save(player);
+		System.out.println(save);
+		assertTrue(save.equals("PLAYER{ID{69}ITEMS{KEY{}}LOCATION{x{4}y{4}ROOM{x{4}y{4}ISEND{false}}}ORIENTATION{NORTH}ROOMSVISTED{ROOM{x{4}y{4}ISEND{false}}}}"));
+	}
+	
+
+	@Test
+	public void testLoad() {
+		Player player= new Player(69);
+		player.addItem(new Key());
+		player.setLocation(new Location(new Room(4,4,false),4,4));
+		player.setOrientation(Direction.NORTH);
+		String save = GameSerialize.save(player);
+		player = GameSerialize.load(save);
+		assertEquals(player.getId(),69);
+		List<Item> items = player.getItems();
+		assertTrue(player.getItems().size()==1);
+		assertTrue(player.getItems().get(0).getFilename().equals("Key.png"));
+	}
 	
 	
 }
