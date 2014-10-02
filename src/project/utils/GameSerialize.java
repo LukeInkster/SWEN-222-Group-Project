@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import project.game.Direction;
+import project.game.Door;
 import project.game.Item;
 import project.game.Key;
 import project.game.Location;
@@ -22,7 +23,7 @@ public class GameSerialize {
 	
 	private static Scanner scan;
 	private static Player player = null;
-	private static List<Room> roomsVisited = null;
+	private static List<Room> roomsVisited = new ArrayList<Room>();
 	
 	public GameSerialize() { } // Static Class, we don't want them to construct it!
 	
@@ -36,90 +37,93 @@ public class GameSerialize {
 	public static String save(Player player){
 		StringBuilder s = new StringBuilder();
 		// -- PLAYER SAVE:
-		s.append("PLAYER{");
+		s.append("PLAYER<");
 		// -- ID  -- moved forward so I can construct player object first-Mike
-		s.append("ID{" + player.getId() + "}");
+		s.append("ID<" + player.getId() + ">");
 		// -- ITEMS
-		s.append("ITEMS{");
+		s.append("ITEMS<");
 		for(Item item : player.getItems()){
 			// -- TILE
 			if(item instanceof Tile){
-				s.append("TILE{");
+				s.append("TILE<");
 				for(boolean d : ((Tile)item).getDoors()){
 					s.append(d + ";");
 				}
-				s.append("}");
+				s.append(">");
 			}
 			// -- KEY
 			if(item instanceof Key){
-				s.append("KEY{}");
+				s.append("KEY<>");
 			}
 		}
-		s.append("}");
+		s.append(">");
 		// -- LOCATION
-		s.append("LOCATION{");
-			s.append("x{" + player.getLocation().getX() + "}");
-			s.append("y{" + player.getLocation().getY() + "}");
-			s.append("ROOM{");
-				s.append("x{" + player.getLocation().getRoom().getX() + "}");
-				s.append("y{" + player.getLocation().getRoom().getX() + "}");
-				s.append("ISEND{" + player.getLocation().getRoom().isEnd() + "}");
-			s.append("}");
-		s.append("}");
+		s.append("LOCATION<");
+			s.append("x<" + player.getLocation().getX() + ">");
+			s.append("y<" + player.getLocation().getY() + ">");
+			s.append("ROOM<");
+				s.append("x<" + player.getLocation().getRoom().getX() + ">");
+				s.append("y<" + player.getLocation().getRoom().getX() + ">");
+				s.append("ISEND<" + player.getLocation().getRoom().isEnd() + ">");
+			s.append(">");
+		s.append(">");
 		// -- ORIENTATION
-		s.append("ORIENTATION{" + player.getOrientation().toString() + "}");
+		s.append("ORIENTATION<" + player.getOrientation().toString() + ">");
 		// -- ROOMS VISITED
-		s.append("ROOMSVISTED{");
+		s.append("ROOMSVISITED<");
 		for(Room room : player.getRoomsVisited()){
-			s.append("ROOM{");
-				s.append("x{" + room.getX() + "}");
-				s.append("y{" + room.getX() + "}");
-				s.append("ISEND{" + room.isEnd() + "}");
-			s.append("}");
+			s.append("ROOM<");
+				s.append("x<" + room.getX() + ">");
+				s.append("y<" + room.getX() + ">");
+				s.append("ISEND<" + room.isEnd() + ">");
+			s.append(">");
 		}
-		s.append("}");
-		s.append("}");
+		s.append("<");
+		s.append(">");
 		System.out.println(s.toString());
 		return s.toString();
 	}
 	
 	public static Player load(String input){
 		scan = new Scanner(input);
-		scan.useDelimiter("\\{");
-		gobble("PLAYER");
+	//	scan.useDelimiter("<");
+		gobble("PLAYER<");
 		//parse ID and construct player
-		gobble("ID");
+		gobble("ID<");
+		scan.useDelimiter(">");
 		player = new Player(scan.nextInt());
-		gobble("}");
-		gobble("ITEMS{");
+		gobble(">");
+		gobble("ITEMS<");
 		parseItem();
-		gobble("LOCATION{");
+		gobble("LOCATION<");
 		parseLocation();
-		gobble("ORIENTATION{");
+		gobble("ORIENTATION<");
 		parseOrientation();
-		gobble("ROOMSVISITED{");
+		gobble("ROOMSVISITED<");
 		parseRoomsVisited();
-		gobble("}}");
+		gobble(">>");
 		return player;
 	}
 	
 	private static void gobble(String string) {
-		System.out.println(string);
-		scan.next(string);
-		scan = new Scanner(scan.nextLine());
+		scan.skip(string);
 	}
 
 	private static void parseRoomsVisited() {
-		gobble("ROOM{");
+		gobble("ROOM<");
 		Room room = parseRoom();
-		roomsVisited = new ArrayList<Room>();
 		roomsVisited.add(room);
-		if(scan.findInLine(".").charAt(0)=='}'){return;}
+		Scanner copy = scan;
+		System.out.println(copy.next());
+
+		if(copy.next().charAt(0)=='>'){
+			gobble(">");
+			return;}
 		else{parseRoomsVisited();}
 	}
 
 	private static void parseOrientation() {
-		scan.useDelimiter("}");
+		scan.useDelimiter(">");
 		String str = scan.next();
 		Direction dir = null;
 		switch(str){
@@ -133,44 +137,51 @@ public class GameSerialize {
 				dir = Direction.SOUTH;
 		}
 		player.setOrientation(dir);
-		gobble("}");
+		gobble(">");
 		
 	}
 
 	private static void parseLocation() {
-		gobble("x{");
+		gobble("x<");
+		scan.useDelimiter(">");
 		int x = scan.nextInt();
-		gobble("}y{");
+		gobble(">y<");
 		int y = scan.nextInt();
-		gobble("}ROOM{");
+		gobble(">ROOM<");
 		Room room = parseRoom();
-		gobble("}");
+		gobble(">");
 		player.setLocation(new Location(room,x,y));
 	}
 
 	private static Room parseRoom() {
-		gobble("x{");
+		gobble("x<");
 		int x = scan.nextInt();
-		gobble("}y{");
+		gobble(">y<");
 		int y = scan.nextInt();
-		gobble("}ISEND{");
+		gobble(">ISEND<");
 		boolean isEnd = scan.nextBoolean();
-		gobble("}}");
+		gobble(">>");
 		return new Room(x,y,isEnd);
 	}
 
 	private static void parseItem() {
-		scan.useDelimiter("{");
+		scan.useDelimiter("<");
 		String itemType = scan.next();
 		switch(itemType){
 			case "TILE":
 				scan.useDelimiter(";");
+				gobble("<");
 				Tile tile = new Tile(scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean());
 				player.addItem(tile);
-				gobble("}");
-			//TODO other items
+				gobble(">");
+			case "KEY":
+				player.addItem(new Key());
+				gobble("<>");
+			case "DOOR":
+				player.addItem(new Door());
+				//gobble("<>");
 		}
-		if(scan.findInLine(".").charAt(0)=='}'){return;}
+		if(scan.findInLine(".").charAt(0)=='>'){return;}
 		else{parseItem();}
 	}
 
