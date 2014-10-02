@@ -1,7 +1,9 @@
 package project.GUI;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 
@@ -56,38 +58,64 @@ public class Display {
 		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT),
 				(Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2);
 
+		//EXPERIMENTAL draw room to the left
+		//TODO check if adjacent room exists, may need to change save method in utils
+		((Graphics2D) g).setComposite(makeComposite(0.5f)); //transparency ftw!
+		g.translate(-room.ROOM_WIDTH*tileWidth, 0); //translate by one room worth to the left
+		drawRoom(g);
+		g.translate(2*room.ROOM_WIDTH*tileWidth, 0); //translate to the right twice
+		drawRoom(g);
+		g.translate(-room.ROOM_WIDTH*tileWidth, 0); //translate to back to middle
+		g.translate((room.ROOM_HEIGHT*slantWidth), -room.ROOM_HEIGHT*tileHeight); //translate up and a little to the right to adjust for iso
+		drawRoom(g);
+		g.translate(-2*room.ROOM_HEIGHT*slantWidth, 2*room.ROOM_HEIGHT*tileHeight); //translate down twice
+		drawRoom(g);
+		g.translate(room.ROOM_HEIGHT*slantWidth, -room.ROOM_HEIGHT*tileHeight); //back to middle
 
-		//now loop through the rooms locations and draw the floor and if needed walls.
-		//made sure to work across the back rows and work down (background-to-foreground)
-		for(int y=0;y<Room.ROOM_HEIGHT;y++){
-			for(int x=0;x<Room.ROOM_WIDTH;x++){
+		((Graphics2D) g).setComposite(makeComposite(1.0f)); //now lets not draw everything else transparent
 
-				//TODO : checks to see if there is a door above if so draws it.
-				if(y==0){
-					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -wallHeight, tileWidth, wallHeight, null);
-				}
-
-				//TODO : checks to see if there is a door on the side if so draws it
-				if(x==0 ){
-					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -wallHeight+(y*tileHeight), slantWidth, wallHeight+30, null);
-				}
-				
-				//Sets the color for the test tiles and then draws them
-				g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight, null);
-				g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+slantWidth, y*tileHeight, tileWidth, tileHeight, null);
-
-				//Sets the color for the outline of the test tiles and then draws them.
-				g.setColor(Color.CYAN);
-				//g.drawRect((x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight);
-
-				//TODO : check to see if there is a item on the tile if so draw it.
-
-
-			}
-		}
-
-		//now undo transitions back to original point
+		//draw this room
+		drawRoom(g);
+		
+		
+		//now undo transitions back to original point (0,0)
 		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)),
 				-((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2));
 	}
+
+	private void drawRoom(Graphics g) {
+		//now loop through the rooms locations and draw the floor and if needed walls.
+				//made sure to work across the back rows and work down (background-to-foreground)
+				for(int y=0;y<Room.ROOM_HEIGHT;y++){
+					for(int x=0;x<Room.ROOM_WIDTH;x++){
+
+						//TODO : checks to see if there is a door above if so draws it.
+						if(y==0){
+							g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -wallHeight, tileWidth, wallHeight, null);
+						}
+
+						//TODO : checks to see if there is a door on the side if so draws it
+						if(x==0 ){
+							g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -wallHeight+(y*tileHeight), slantWidth, wallHeight+30, null);
+						}
+						
+						//Sets the color for the test tiles and then draws them
+						g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight,60, tileHeight, null);
+						//g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+slantWidth, y*tileHeight, tileWidth, tileHeight, null);
+
+						//Sets the color for the outline of the test tiles and then draws them.
+						g.setColor(Color.CYAN);
+						//g.drawRect((x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight);
+
+						//TODO : check to see if there is a item on the tile if so draw it.
+
+
+					}
+				}
+	}
+	
+	 private AlphaComposite makeComposite(float alpha) {
+		  int type = AlphaComposite.SRC_OVER;
+		  return(AlphaComposite.getInstance(type, alpha));
+	 }
 }

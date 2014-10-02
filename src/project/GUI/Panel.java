@@ -3,6 +3,7 @@ package project.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -195,7 +196,7 @@ public class Panel extends JPanel{
 		Image offset = createImage(getWidth(),getHeight());
 
 		//Retrieves the graphics of the buffered image
-		Graphics offgc = offset.getGraphics();
+		Graphics2D offgc = (Graphics2D) offset.getGraphics();
 
 		//Draws a black background
 		offgc.setColor(Color.BLACK);

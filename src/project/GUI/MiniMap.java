@@ -39,10 +39,14 @@ public class MiniMap {
 		//center the map
 		g.translate((WIDTH%numRooms)/2, (HEIGHT%numRooms)/2);
 		
+		//draw backdrop
+		g.setColor(Color.black);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
 		//draws the gray lined grid
 		for(int x=0;x<numRooms;x++){
 			for(int y=0;y<numRooms;y++){
-				g.setColor(Color.GRAY);
+				g.setColor(Color.darkGray);
 				g.drawRect(x*roomSize, y*roomSize, roomSize, roomSize);
 			}
 		}
