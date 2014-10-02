@@ -90,6 +90,7 @@ public class GameSerialize {
 	}
 	
 	public static Player load(String input){
+		//TODO errorhandling
 		scan = new Scanner(input);
 	//	scan.useDelimiter("<");
 		gobble("PLAYER<");
@@ -120,7 +121,7 @@ public class GameSerialize {
 		roomsVisited.add(room);
 		Scanner copy = scan;
 		System.out.println(copy.next());
-
+		//TODO fix this bit
 		if(copy.next().charAt(0)=='>'){
 			gobble(">");
 			return;}
