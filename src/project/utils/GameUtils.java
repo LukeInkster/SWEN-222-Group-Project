@@ -4,8 +4,10 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -28,7 +30,7 @@ public class GameUtils {
 
 	private static Scanner scan;
 	private static Player player = null;
-	private static List<Room> roomsVisited = new ArrayList<Room>();
+	private static Set<Room> roomsVisited = new HashSet<Room>();
 
 	public GameUtils() { } // Static Class, we don't want them to construct it!
 
@@ -60,6 +62,10 @@ public class GameUtils {
 			if(item instanceof Key){
 				s.append("KEY<>");
 			}
+			// -- KEY
+			if(item instanceof Door){
+				s.append("DOOR<>");
+			}
 		}
 		s.append(">");
 		// -- LOCATION
@@ -70,6 +76,11 @@ public class GameUtils {
 				s.append("x<" + player.getLocation().getRoom().getX() + ">");
 				s.append("y<" + player.getLocation().getRoom().getX() + ">");
 				s.append("ISEND<" + player.getLocation().getRoom().isEnd() + ">");
+			s.append(">");
+			s.append("TILE<");
+			for(boolean d : player.getLocation().getRoom().getTile().getDoors()){
+				s.append(d + ";");
+			}
 			s.append(">");
 		s.append(">");
 		// -- ORIENTATION
@@ -83,9 +94,8 @@ public class GameUtils {
 				s.append("ISEND<" + room.isEnd() + ">");
 			s.append(">");
 		}
-		s.append("<");
 		s.append(">");
-		System.out.println(s.toString());
+		System.out.printf("saveString: %s\n", s.toString());
 		return s.toString();
 	}
 
@@ -107,22 +117,28 @@ public class GameUtils {
 		parseOrientation();
 		gobble("ROOMSVISITED<");
 		parseRoomsVisited();
-		gobble(">>");
+		player.setRoomsVisited(roomsVisited);
 		return player;
 	}
 
 	private static void gobble(String string) {
 		scan.skip(string);
 	}
+	
+	private static String peek(){
+		String str = scan.nextLine();
+		Scanner temp = new Scanner (str);
+		scan = new Scanner(str);
+		str = temp.next();
+		return str;
+	}
 
 	private static void parseRoomsVisited() {
 		gobble("ROOM<");
 		Room room = parseRoom();
 		roomsVisited.add(room);
-		Scanner copy = scan;
-		System.out.println(copy.next());
-		//TODO fix this bit
-		if(copy.next().charAt(0)=='>'){
+		//System.out.printf("Hey: %s\n",scan.nextLine());
+		if(peek().charAt(0)=='>'){
 			gobble(">");
 			return;}
 		else{parseRoomsVisited();}
@@ -155,13 +171,17 @@ public class GameUtils {
 		int y = scan.nextInt();
 		gobble(">ROOM<");
 		Room room = parseRoom();
+		gobble("TILE");
+		Tile tile = parseTile();
 		gobble(">");
+		room.setTile(tile);
 		player.setLocation(new Location(room,x,y));
 	}
 
 	private static Room parseRoom() {
 		gobble("x<");
-		int x = scan.nextInt();
+		scan.useDelimiter(">");
+		int x = Integer.parseInt(scan.next());
 		gobble(">y<");
 		int y = scan.nextInt();
 		gobble(">ISEND<");
@@ -175,20 +195,30 @@ public class GameUtils {
 		String itemType = scan.next();
 		switch(itemType){
 			case "TILE":
-				scan.useDelimiter(";");
-				gobble("<");
-				Tile tile = new Tile(scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean());
+				Tile tile = parseTile();
 				player.addItem(tile);
-				gobble(">");
+				break;
 			case "KEY":
 				player.addItem(new Key());
 				gobble("<>");
+				break;
 			case "DOOR":
 				player.addItem(new Door());
-				//gobble("<>");
+				gobble("<>");
+				break;
 		}
-		if(scan.findInLine(".").charAt(0)=='>'){return;}
+		if(peek().charAt(0)=='>'){
+			gobble(">");
+			return;}
 		else{parseItem();}
+	}
+	
+	private static Tile parseTile(){
+		scan.useDelimiter(";");
+		gobble("<");
+		Tile tile = new Tile(scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean());
+		gobble(";>");
+		return tile;
 	}
 
 	/**

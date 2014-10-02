@@ -117,4 +117,8 @@ public class Player {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public void setRoomsVisited(Set<Room> roomsVisited) {
+		this.roomsVisited = roomsVisited;
+	}
 }
