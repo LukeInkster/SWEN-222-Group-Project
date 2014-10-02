@@ -25,13 +25,17 @@ public class Display {
 	private int slantWidth = 15, slantHeight = 0, tileWidth = 45, tileHeight = 30;
 	private int wallHeight = 60;
 
-	//The user that the display belongs to.
+	//The user that the display belongs to. -- do we need this? -Mike
 	private User user;
+	
+	//The Room being displayed, added to enable drawing faded adjacent rooms -Mike
+	private Room room;
 
 	//The images to be used
 	Image tile = GameUtils.loadImage(new File("assets//TileTest2.png"));
 	Image wall = GameUtils.loadImage(new File("assets//Wall2.png"));
 	Image wallIso = GameUtils.loadImage(new File("assets//WallIso2.png"));
+	
 
 	/**
 	 * Constructor for Display which receives dimensions to show the bounds of its size on the panel.
@@ -39,8 +43,8 @@ public class Display {
 	 * @param width : horizontal dimension of the display
 	 * @param height : vertical dimension of the display
 	 */
-	public Display(User u){
-		user = u;
+	public Display(Room room){
+		this.room = room;
 	}
 
 	public void draw(Graphics g){
@@ -49,7 +53,8 @@ public class Display {
 		g.drawImage(GameUtils.loadImage(new File("assets\\Smoke.png")),0,0,WIDTH,HEIGHT,null);
 		
 		//translate to center the room
-		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2);
+		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT),
+				(Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2);
 
 
 		//now loop through the rooms locations and draw the floor and if needed walls.
@@ -82,6 +87,7 @@ public class Display {
 		}
 
 		//now undo transitions back to original point
-		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2));
+		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)),
+				-((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2));
 	}
 }
