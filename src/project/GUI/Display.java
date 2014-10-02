@@ -36,11 +36,8 @@ public class Display {
 	
 	public void draw(Graphics g){
 		
-		//first translate away from the edge of the display.
-		g.translate(50,50);
-		
-		//now do additional translate due to isometric slant.
-		g.translate(slantWidth*Room.ROOM_HEIGHT, 0);
+		//translate to centre the room
+		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2));
 		
 		//now loop through the rooms locations and draw the floor and if needed walls.
 		//made sure to work across the back rows and work down (background-to-foreground)
@@ -72,8 +69,6 @@ public class Display {
 		}
 		
 		//now undo transitions back to original point
-		g.translate(-(slantWidth*Room.ROOM_HEIGHT), 0);
-		
-		g.translate(-50, -50);
+		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)));
 	}
 }

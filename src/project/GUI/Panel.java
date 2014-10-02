@@ -60,7 +60,8 @@ public class Panel extends JPanel{
 		frame.add(this);
 		
 		//sets the size of the frame.
-		setPreferredSize(new Dimension(800,600));
+		//TODO : Windows & Linux GUI change
+		setPreferredSize(new Dimension(800-10,600-10));
 		
 		//creates a new display to be drawn.
 		display = new Display(user);
@@ -70,7 +71,6 @@ public class Panel extends JPanel{
 		
 		//TODO : send player to inventory.
 		inventory = new InventoryBar(user.getPlayer());
-		
 		
 		//create Listeners
 		createListeners();
@@ -94,14 +94,24 @@ public class Panel extends JPanel{
 		//Menu Bar
 		JMenuBar menuBar;
 		JMenu menu;
+		JMenuItem menuItem;
 
 		menuBar = new JMenuBar();
+		
 		menu = new JMenu("File");
 		menuBar.add(menu);
-		JMenuItem menuItem = new JMenuItem("Find game");
+		
+		menuItem = new JMenuItem("Find game");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO : something
+			}
+		});
+		menu.add(menuItem);
+		menuItem = new JMenuItem("Quit");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 		menu.add(menuItem);
@@ -184,14 +194,14 @@ public class Panel extends JPanel{
 		offgc.fillRect(0, 0, getWidth(), getHeight());
 		
 		//TODO : Draws the layout of panel distribution
-		offgc.setColor(Color.BLUE);
+		offgc.setColor(new Color( 35, 35 ,29));
 		offgc.fillRect(0, 0, Display.WIDTH, Display.HEIGHT);
 		
-		offgc.setColor(Color.RED);
-		offgc.fillRect(0, Display.HEIGHT, MiniMap.getWidth(), MiniMap.getWidth());
+		offgc.setColor(new Color( 115, 115, 95));
+		offgc.fillRect(0, Display.HEIGHT, MiniMap.WIDTH, MiniMap.WIDTH);
 		
-		offgc.setColor(Color.GREEN);
-		offgc.fillRect(MiniMap.getWidth(), Display.HEIGHT, 600, 200);
+		offgc.setColor(new Color( 183, 183, 165));
+		offgc.fillRect(MiniMap.WIDTH, Display.HEIGHT, 600, 200);
 		
 		//draws the display.
 		display.draw(offgc);
@@ -203,7 +213,7 @@ public class Panel extends JPanel{
 		map.draw(offgc);
 		
 		//now translate to the new object to be drawn
-		offgc.translate( MiniMap.getWidth(), 0);
+		offgc.translate( MiniMap.WIDTH, 0);
 		
 		//draws the inventory.
 		inventory.draw(offgc);
@@ -259,9 +269,9 @@ public class Panel extends JPanel{
 		p.addItem(new Tile(false,true,true,true)); 
 		p.addItem(new Tile(true,false,true,false)); 
 		p.addItem(new Tile(false,true,true,true)); 
-		p.addItem(new Key()); 
-		p.setLocation(new Location(new Room(4, 4, false), 1, 1));
-		p.setLocation(new Location(new Room(4, 5, false), 1, 1));
+		p.addItem(new Key());
+		p.setLocation(new Location(new Room(0, 0, false), 1, 1));
+		p.setLocation(new Location(new Room(8, 8, false), 1, 1));
 		p.setLocation(new Location(new Room(4, 3, false), 1, 1));
 		p.setLocation(new Location(new Room(3, 3, false), 1, 1));
 		p.setLocation(new Location(new Room(5, 4, false), 1, 1));

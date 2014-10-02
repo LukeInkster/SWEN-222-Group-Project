@@ -18,6 +18,9 @@ public class User {
 	//The room the player is currently in.
 	private Room room;
 	
+	//The connectiono to the server
+	Client client;
+	
 	/**
 	 * Constructor : Creates an instance of a User in respect to a player in the game.
 	 * @param p : The player the user controls in the game.

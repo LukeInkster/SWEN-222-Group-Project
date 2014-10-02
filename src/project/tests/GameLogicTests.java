@@ -273,12 +273,7 @@ public class GameLogicTests {
 	// == MINIMAP TESTS == //
 	// ============================================================= //
 	
-	@Test
-	public void testGetWidth() {
-		
-		assertEquals(MiniMap.getWidth(),90);
-		
-	}
+
 	
 	// ============================================================= //
 	// == INVENTORYBAR TESTS == //
