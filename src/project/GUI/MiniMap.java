@@ -2,10 +2,13 @@ package project.GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
 import java.util.Set;
 
 import project.game.Player;
 import project.game.Room;
+import project.utils.GameUtils;
 
 /**
  * The minimap showing the rooms visited and their locations
@@ -48,6 +51,8 @@ public class MiniMap {
 		for(Room room:roomsVisited){
 			g.setColor(Color.white);
 			g.fillRect(room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize);
+			Image img = GameUtils.loadImage(new File(room.getTile().getFilename()));
+			g.drawImage(img, room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize,null);
 			g.setColor(Color.black);
 			g.drawRect(room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize);
 		}

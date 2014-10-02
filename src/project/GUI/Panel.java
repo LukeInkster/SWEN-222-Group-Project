@@ -280,11 +280,18 @@ public class Panel extends JPanel{
 		p.addItem(new Tile(true,false,true,false));
 		p.addItem(new Tile(false,true,true,true));
 		p.addItem(new Key());
-		p.setLocation(new Location(new Room(0, 0, false), 1, 1));
-		p.setLocation(new Location(new Room(8, 8, false), 1, 1));
-		p.setLocation(new Location(new Room(4, 3, false), 1, 1));
-		p.setLocation(new Location(new Room(3, 3, false), 1, 1));
-		p.setLocation(new Location(new Room(5, 4, false), 1, 1));
+		Room room1 = new Room(0, 0, false);
+		Room room2 = new Room(0, 1, false);
+		Room room3 = new Room(1, 1, false);
+		Room room4 = new Room(2, 1, false);
+		room1.setTile(new Tile(true,true,true,true));
+		room2.setTile(new Tile(true,false,true,true));
+		room3.setTile(new Tile(true,true,false,true));
+		room4.setTile(new Tile(true,true,true,true));
+		p.setLocation(new Location(room1, 1, 1));
+		p.setLocation(new Location(room2, 1, 1));
+		p.setLocation(new Location(room3, 1, 1));
+		p.setLocation(new Location(room4, 1, 1));
 
 		User u = new User(p);
 		new Panel(u);

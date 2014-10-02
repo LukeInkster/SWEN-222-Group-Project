@@ -43,7 +43,7 @@ public class InventoryBar {
 			List<Item> items = player.getItems();
 		for(int i = 0;i<items.size();i++){
 			StringBuilder sb = new StringBuilder();
-			sb.append("assets/");
+			//sb.append("assets/");
 			sb.append(items.get(i).getFilename());
 			Image img = GameUtils.loadImage(new File(sb.toString()));
 			int row = 0;

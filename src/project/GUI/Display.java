@@ -69,7 +69,7 @@ public class Display {
 
 				//TODO : checks to see if there is a wall on the side if so draws it
 				if(x==0 ){
-					g.drawImage(doorIso, (x*tileWidth)-(y*slantWidth), -42+(y*tileHeight), slantWidth, 42+22, null);
+					g.drawImage(doorIso, (x*tileWidth)-(y*slantWidth), -tileWidth+(y*tileHeight), slantWidth, tileWidth+tileHeight, null);
 				}
 
 				//TODO : check to see if there is a item on the tile if so draw it.
