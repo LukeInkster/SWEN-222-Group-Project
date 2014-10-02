@@ -29,8 +29,8 @@ public class Display {
 
 	//The images to be used
 	Image tile = GameUtils.loadImage(new File("assets//Tile.png"));
-	Image door = GameUtils.loadImage(new File("assets//Door.png"));
-	Image doorIso = GameUtils.loadImage(new File("assets//DoorIso.png"));
+	Image wall = GameUtils.loadImage(new File("assets//Wall1.png"));
+	Image wallIso = GameUtils.loadImage(new File("assets//WallIso.png"));
 
 	/**
 	 * Constructor for Display which receives dimensions to show the bounds of its size on the panel.
@@ -53,6 +53,16 @@ public class Display {
 		for(int y=0;y<Room.ROOM_HEIGHT;y++){
 			for(int x=0;x<Room.ROOM_WIDTH;x++){
 
+				//TODO : checks to see if there is a wall above if so draws it.
+				if(y==0){
+					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -42, slantWidth*3-22, 42, null);
+				}
+
+				//TODO : checks to see if there is a wall on the side if so draws it
+				if(x==0 ){
+					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -42+(y*tileHeight), slantWidth, 42+30, null);
+				}
+				
 				//Sets the color for the test tiles and then draws them
 				g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight, null);
 				g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+slantWidth, y*tileHeight, tileWidth, tileHeight, null);
@@ -61,16 +71,6 @@ public class Display {
 				//Sets the color for the outline of the test tiles and then draws them.
 				g.setColor(Color.CYAN);
 				//g.drawRect((x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight);
-
-				//TODO : checks to see if there is a wall above if so draws it.
-				if(y==0){
-					g.drawImage(door, (x*tileWidth)-(y*slantWidth)+slantWidth, -42, slantWidth*3-22, 42, null);
-				}
-
-				//TODO : checks to see if there is a wall on the side if so draws it
-				if(x==0 ){
-					g.drawImage(doorIso, (x*tileWidth)-(y*slantWidth), -tileWidth+(y*tileHeight), slantWidth, tileWidth+tileHeight, null);
-				}
 
 				//TODO : check to see if there is a item on the tile if so draw it.
 
