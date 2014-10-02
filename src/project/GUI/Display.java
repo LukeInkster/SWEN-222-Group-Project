@@ -22,15 +22,15 @@ public class Display {
 	protected static final int WIDTH = 800;
 
 	//These integers are used for the isometric calculations
-	private int slantWidth = 22, slantHeight = 0, tileWidth = 45, tileHeight = 30;
+	private int slantWidth = 15, slantHeight = 0, tileWidth = 45, tileHeight = 30;
 
 	//The user that the display belongs to.
 	private User user;
 
 	//The images to be used
-	Image tile = GameUtils.loadImage(new File("assets//Tile.png"));
-	Image wall = GameUtils.loadImage(new File("assets//Wall1.png"));
-	Image wallIso = GameUtils.loadImage(new File("assets//WallIso.png"));
+	Image tile = GameUtils.loadImage(new File("assets//TileTest.png"));
+	Image wall = GameUtils.loadImage(new File("assets//Wall2.png"));
+	Image wallIso = GameUtils.loadImage(new File("assets//WallIso2.png"));
 
 	/**
 	 * Constructor for Display which receives dimensions to show the bounds of its size on the panel.
@@ -55,18 +55,17 @@ public class Display {
 
 				//TODO : checks to see if there is a wall above if so draws it.
 				if(y==0){
-					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -42, slantWidth*3-22, 42, null);
+					g.drawImage(wall, (x*tileWidth)-(y*slantWidth)+slantWidth, -45, tileWidth, 45, null);
 				}
 
 				//TODO : checks to see if there is a wall on the side if so draws it
 				if(x==0 ){
-					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -42+(y*tileHeight), slantWidth, 42+30, null);
+					g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -45+(y*tileHeight), slantWidth, 45+30, null);
 				}
 				
 				//Sets the color for the test tiles and then draws them
 				g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight, null);
 				g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+slantWidth, y*tileHeight, tileWidth, tileHeight, null);
-				g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+(slantWidth*1), y*tileHeight, tileWidth, tileHeight, null);
 
 				//Sets the color for the outline of the test tiles and then draws them.
 				g.setColor(Color.CYAN);
