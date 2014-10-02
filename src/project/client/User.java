@@ -29,8 +29,6 @@ public class User {
 		player = p;
 	}
 	
-	
-	
 	//GETTER AND SETTER METHODS//
 	
 	/**

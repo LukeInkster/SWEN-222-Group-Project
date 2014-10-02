@@ -1,8 +1,13 @@
 package project.utils;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import project.game.Direction;
 import project.game.Door;
@@ -185,4 +190,21 @@ public class GameSerialize {
 		else{parseItem();}
 	}
 
+	/**
+	 * Load an image from the file system, using a given filename.
+	 *
+	 * @param filename
+	 * @return
+	 */
+	public static Image loadImage(File filename) {
+
+		try {
+			Image img = ImageIO.read(filename);
+			return img;
+		} catch (IOException e) {
+			// we've encountered an error loading the image. There's not much we
+			// can actually do at this point, except to abort the game.
+			throw new RuntimeException("Unable to load image: " + filename);
+		}
+	}
 }

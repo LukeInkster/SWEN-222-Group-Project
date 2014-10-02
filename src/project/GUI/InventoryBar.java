@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import project.game.Item;
 import project.game.Player;
 import project.game.Room;
+import project.utils.GameSerialize;
 
 public class InventoryBar {
 
@@ -44,29 +45,12 @@ public class InventoryBar {
 			StringBuilder sb = new StringBuilder();
 			sb.append("assets/");
 			sb.append(items.get(i).getFilename());
-			Image img = loadImage(new File(sb.toString()));
+			Image img = GameSerialize.loadImage(new File(sb.toString()));
 			int row = 0;
 			if(i>6){row = 1;};
 			g.drawImage(img, (i-7*row)*(slotSize)+buffX, buffY+slotSize*row, imageSize, imageSize,null);
 		}
 	}
 
-	/**
-	 * Load an image from the file system, using a given filename.
-	 *
-	 * @param filename
-	 * @return
-	 */
-	public Image loadImage(File filename) {
-
-		try {
-			Image img = ImageIO.read(filename);
-			return img;
-		} catch (IOException e) {
-			// we've encountered an error loading the image. There's not much we
-			// can actually do at this point, except to abort the game.
-			throw new RuntimeException("Unable to load image: " + filename);
-		}
-	}
 
 }

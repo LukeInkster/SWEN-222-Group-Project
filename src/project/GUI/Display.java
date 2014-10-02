@@ -19,7 +19,7 @@ public class Display {
 	protected static final int WIDTH = 800;
 	
 	//These integers are used for the isometric calculations
-	private int slantWidth = 0, slantHeight = 0, tileWidth = 20, tileHeight = 20;
+	private int slantWidth = 20, slantHeight = 0, tileWidth = 30, tileHeight = 30;
 	
 	//The user that the display belongs to.
 	private User user;
@@ -35,9 +35,9 @@ public class Display {
 	}
 	
 	public void draw(Graphics g){
-		
-		//translate to centre the room
-		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2));
+
+		//translate to center the room
+		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT), (Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2));
 		
 		//now loop through the rooms locations and draw the floor and if needed walls.
 		//made sure to work across the back rows and work down (background-to-foreground)
@@ -69,6 +69,6 @@ public class Display {
 		}
 		
 		//now undo transitions back to original point
-		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)));
+		g.translate(-((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT)), -((Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)));
 	}
 }
