@@ -13,6 +13,7 @@ import project.net.PlayerMoveEvent;
 /**
  * Thread that controls all updates to the Game World. Set as a Daemon thread, as it is controlled by the Server. Should we shutdown the server, and the only threads
  * operating in the JVM are daemons, the JVM will stop.
+ * Based on the Multithreaded Server tutorial by Jakob Jenkov: http://tutorials.jenkov.com/java-multithreaded-servers/multithreaded-server.html
  * @author robinsjack1
  *
  */

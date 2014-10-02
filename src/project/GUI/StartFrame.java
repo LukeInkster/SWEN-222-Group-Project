@@ -49,7 +49,7 @@ public class StartFrame extends JFrame {
 			}
 		});
 
-        setPreferredSize(new Dimension(400, 70));
+        setPreferredSize(new Dimension(400, 110));
 
 		buttons.add(button);
 		add(buttons, BorderLayout.SOUTH);

@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import project.game.Item;
 import project.game.Player;
 import project.game.Room;
-import project.utils.GameSerialize;
+import project.utils.GameUtils;
 
 public class InventoryBar {
 
@@ -45,7 +45,7 @@ public class InventoryBar {
 			StringBuilder sb = new StringBuilder();
 			sb.append("assets/");
 			sb.append(items.get(i).getFilename());
-			Image img = GameSerialize.loadImage(new File(sb.toString()));
+			Image img = GameUtils.loadImage(new File(sb.toString()));
 			int row = 0;
 			if(i>6){row = 1;};
 			g.drawImage(img, (i-7*row)*(slotSize)+buffX, buffY+slotSize*row, imageSize, imageSize,null);

@@ -6,7 +6,7 @@ import project.net.DenyConnectionEvent;
 import project.net.DummyEvent;
 import project.net.Event;
 import project.net.GameWorldUpdateEvent;
-import project.utils.GameSerialize;
+import project.utils.GameUtils;
 
 public class Client {
 
@@ -14,7 +14,7 @@ public class Client {
 
 	boolean connectionAcknowledged = false;
 
-	// --
+	// -- Connection buffer variable
 	private Player player;
 	// --
 
@@ -45,8 +45,8 @@ public class Client {
 			// -- CLIENT SIDE EDITS.
 
 			if(e instanceof GameWorldUpdateEvent){
-				this.player = GameSerialize.load(((GameWorldUpdateEvent)e).data);
-				System.out.println(this + "PLAYER UPDATE");
+				this.player = GameUtils.load(((GameWorldUpdateEvent)e).data);
+				System.out.println(this + "PLAYER UPDATE [ " + player.getId() + " ]");
 			}
 
 			// TODO: Handle Client Side events HERE!

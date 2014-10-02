@@ -20,7 +20,7 @@ import project.game.Location;
 import project.game.Player;
 import project.game.Room;
 import project.game.Tile;
-import project.utils.GameSerialize;
+import project.utils.GameUtils;
 
 public class GameLogicTests {
 
@@ -287,7 +287,7 @@ public class GameLogicTests {
 		player.addItem(new Key());
 		player.setLocation(new Location(new Room(4,4,false),4,4));
 		player.setOrientation(Direction.NORTH);
-		String save = GameSerialize.save(player);
+		String save = GameUtils.save(player);
 		System.out.println(save);
 		assertTrue(save.equals("PLAYER{ID{69}ITEMS{KEY{}}LOCATION{x{4}y{4}ROOM{x{4}y{4}ISEND{false}}}ORIENTATION{NORTH}ROOMSVISTED{ROOM{x{4}y{4}ISEND{false}}}}"));
 	}
@@ -299,8 +299,8 @@ public class GameLogicTests {
 		player.addItem(new Key());
 		player.setLocation(new Location(new Room(4,4,false),4,4));
 		player.setOrientation(Direction.NORTH);
-		String save = GameSerialize.save(player);
-		player = GameSerialize.load(save);
+		String save = GameUtils.save(player);
+		player = GameUtils.load(save);
 		assertEquals(player.getId(),69);
 		List<Item> items = player.getItems();
 		assertTrue(player.getItems().size()==1);

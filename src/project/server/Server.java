@@ -15,7 +15,7 @@ import project.game.Player;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
 import project.net.GameWorldUpdateEvent;
-import project.utils.GameSerialize;
+import project.utils.GameUtils;
 
 /**
  * Server object that extends Thread. Class handles all new connections to the Server, and outputs them to ServerThread and UpdateThreads.
@@ -64,17 +64,19 @@ public class Server extends Thread {
 						getClients().remove(id);
 						continue;
 					}
+					// And then we should start the Worker Thread for the server to handle incoming events from the Client
 					ServerThread serverThread = new ServerThread(this, id, client);
 					serverThread.start();
 
 					// -- EVENTS TO SEND ONCE CONNECTION IS MADE:
+
 					// First, we'll send an Acknowledgement Event, to determine that the connection was successfully made to the server
 					AcknowledgeEvent ack = new AcknowledgeEvent();
 					thread.sendClient(ack, getClients().get(id));
 					// We'll add the client as a player to the game.
 					game.addPlayer(new Player(id));
 					// Then we should send a GameWorldUpdate to the player, giving the data required for rendering.
-					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameSerialize.save(game.getPlayer(id)));
+					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
 					thread.sendClient(update, getClients().get(id));
 					// Then we should update status.
 					System.out.println("[SERVER] Client Connected! ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");

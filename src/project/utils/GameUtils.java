@@ -19,19 +19,19 @@ import project.game.Room;
 import project.game.Tile;
 
 /**
- * Class of Static methods to serialize the objects required for the  
+ * Class of Static methods to serialize the objects required for the
  * @author Jack
  *
  */
 
-public class GameSerialize {
-	
+public class GameUtils {
+
 	private static Scanner scan;
 	private static Player player = null;
 	private static List<Room> roomsVisited = new ArrayList<Room>();
-	
-	public GameSerialize() { } // Static Class, we don't want them to construct it!
-	
+
+	public GameUtils() { } // Static Class, we don't want them to construct it!
+
 	/**
 	 * returns a string containing players fields
 	 * example:
@@ -88,7 +88,7 @@ public class GameSerialize {
 		System.out.println(s.toString());
 		return s.toString();
 	}
-	
+
 	public static Player load(String input){
 		//TODO errorhandling
 		scan = new Scanner(input);
@@ -110,7 +110,7 @@ public class GameSerialize {
 		gobble(">>");
 		return player;
 	}
-	
+
 	private static void gobble(String string) {
 		scan.skip(string);
 	}
@@ -144,7 +144,7 @@ public class GameSerialize {
 		}
 		player.setOrientation(dir);
 		gobble(">");
-		
+
 	}
 
 	private static void parseLocation() {
