@@ -13,22 +13,21 @@ import project.net.Event;
  *
  */
 public class ServerThread extends Thread {
-	
+
 	private Server server;
 	private int id;
 	private Socket socket;
-	
+
 	public ServerThread(Server server, int id, Socket socket){
 		this.socket = socket;
 		this.server = server;
 		this.id = id;
+		// Setting as a Daemon means that they are 'low' priority threads. When there are no user threads running, the JVM will quit, allowing for safe stopping of threads.
 		setDaemon(true);
 	}
-	
-	private long lastIncoming;
-	
-	public static final long MAX_TIMEOUT = 10000; // Server will kick any player it cannot connect for longer than 10 seconds.
-	
+
+	private long lastIncoming; // to hold the last successful sending of an event.
+
 	public void run(){
 		Object obj = null;
 		ObjectInputStream in = null;
@@ -44,9 +43,8 @@ public class ServerThread extends Thread {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					//e.printStackTrace();
 					long time = (System.currentTimeMillis() - lastIncoming);
-					if(time >= MAX_TIMEOUT){
+					if(time >= Server.MAX_TIMEOUT){
 						server.removeClient(id);
 						System.out.println(this + "Connection Lost - Removing Player");
 						System.out.println(server.status());
@@ -54,14 +52,14 @@ public class ServerThread extends Thread {
 					}
 					continue;
 				}
-				
+
 				if(!(obj instanceof Event)) continue; 						// Means we have recieved an object we shouldn't have...
 				else server.getUpdates().add(new Update(id, (Event)obj));	// Else, add it to the change queue on the server thread!
-				
+
 				lastIncoming = System.currentTimeMillis();
 			}
 	}
-	
+
 	public String toString(){
 		return "[ServerThread # " + id + "] ";
 	}
