@@ -34,6 +34,7 @@ public class Client {
 				}else continue;
 			}
 			
+			
 			// -- CLIENT SIDE EDITS.
 			
 			// TODO: Handle Client Side events HERE!

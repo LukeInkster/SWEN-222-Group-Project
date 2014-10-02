@@ -7,7 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -15,6 +14,7 @@ import project.game.Game;
 import project.game.Player;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
+import project.net.GameWorldUpdateEvent;
 import project.utils.GameSerialize;
 
 /**
@@ -24,17 +24,17 @@ import project.utils.GameSerialize;
  *
  */
 public class Server extends Thread {
-	
+
 	public static final int PORT_NUMBER = 12608;
-	
+
 	private ServerSocket socket;
-	private Game game;	
-	
+	private Game game;
+
 	private boolean done = false;
-	
+
 	private Map<Integer, ClientConnection> clients;
 	private BlockingQueue<Update> updates = new LinkedBlockingQueue<Update>();
-	
+
 	public Server(Game game){
 		try {
 			this.socket = new ServerSocket();
@@ -45,8 +45,8 @@ public class Server extends Thread {
 		clients = new HashMap<Integer, ClientConnection>();
 		this.game = game;
 	}
-	
-	
+
+
 	public void run(){
 			try{
 				int id = 0;
@@ -56,7 +56,7 @@ public class Server extends Thread {
 				while(!done){
 				Socket client = socket.accept();
 				getClients().put(id,  new ClientConnection(client, new ObjectOutputStream(client.getOutputStream())));
-				if(clients.size() >= 4){
+				if(clients.size() > 4){
 					thread.sendClient(new DenyConnectionEvent("Server Full!"), getClients().get(id));
 					getClients().remove(id);
 					continue;
@@ -68,7 +68,8 @@ public class Server extends Thread {
 				thread.sendClient(ack, getClients().get(id));
 				// We'll add the client as a player to the game.
 				game.addPlayer(new Player(id));
-				GameSerialize.save(game.getPlayer(id));
+				//GameSerialize.save(game.getPlayer(id));
+				GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameSerialize.save(game.getPlayer(id)));
 				System.out.println("[SERVER] Client Connected! ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
 				id++;
 			}
@@ -77,26 +78,26 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public synchronized void removeClient(int id){
 		clients.remove(id);
 		game.removePlayer(id);
 	}
-	
+
 	public synchronized String status(){
 		return "[SERVER] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]";
 	}
-	
+
 	public synchronized void shutdown(){
 		done = true;
 		try { socket.close();} catch (IOException e) { e.printStackTrace(); }
 	}
-	
+
 	public void start(){
-		System.out.println("[SERVER] Server Started on port " + socket.getLocalPort() );	
+		System.out.println("[SERVER] Server Started on port " + socket.getLocalPort() );
 		super.start();
 	}
-		
+
 	public Map<Integer, ClientConnection> getClients() {
 		return clients;
 	}
