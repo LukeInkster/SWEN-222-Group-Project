@@ -23,11 +23,11 @@ import project.game.Tile;
 import project.utils.GameSerialize;
 
 public class GameLogicTests {
-	
+
 	// ============================================================= //
 	// == DIRECTION TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testClockwise() {
 		assertTrue(Direction.NORTH.clockwise() == Direction.EAST);
@@ -35,7 +35,7 @@ public class GameLogicTests {
 		assertTrue(Direction.SOUTH.clockwise() == Direction.WEST);
 		assertTrue(Direction.WEST.clockwise() == Direction.NORTH);
 	}
-	
+
 	@Test
 	public void testAnticlockwise() {
 		assertTrue(Direction.NORTH.anticlockwise() == Direction.WEST);
@@ -43,7 +43,7 @@ public class GameLogicTests {
 		assertTrue(Direction.SOUTH.anticlockwise() == Direction.EAST);
 		assertTrue(Direction.EAST.anticlockwise() == Direction.NORTH);
 	}
-	
+
 	@Test
 	public void testOpposite() {
 		assertTrue(Direction.NORTH.opposite() == Direction.SOUTH);
@@ -51,11 +51,11 @@ public class GameLogicTests {
 		assertTrue(Direction.SOUTH.opposite() == Direction.NORTH);
 		assertTrue(Direction.EAST.opposite() == Direction.WEST);
 	}
-	
+
 	// ============================================================= //
 	// == LOCATION TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testConstructor() {
 		int x = 1;
@@ -64,15 +64,15 @@ public class GameLogicTests {
 		assertFalse(loc.hasItem());
 		assertTrue(loc.getX()==x);
 		assertTrue(loc.getY()==y);
-	}	
-	
+	}
+
 	@Test
 	public void testSetItem() {
 		Location loc = dummyLocation();
 		loc.setItem(new Door());
 		assertTrue(loc.hasItem());
 	}
-	
+
 	@Test
 	public void testPeekItem() {
 		Location loc = dummyLocation();
@@ -81,7 +81,7 @@ public class GameLogicTests {
 		assertTrue(loc.peekItem()==d);
 		assertTrue(loc.hasItem());
 	}
-	
+
 	@Test
 	public void testTakeItem() {
 		Location loc = dummyLocation();
@@ -90,15 +90,15 @@ public class GameLogicTests {
 		assertTrue(loc.takeItem()==d);
 		assertFalse(loc.hasItem());
 	}
-	
+
 	private Location dummyLocation(){
 		return new Location(null, 0,0);
 	}
-	
+
 	// ============================================================= //
 	// == PLAYER TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testAddItem() {
 		Player p = dummyPlayer();
@@ -106,7 +106,7 @@ public class GameLogicTests {
 		p.addItem(new Door());
 		assertTrue(p.getItems().size()==1);
 	}
-	
+
 	@Test
 	public void testRemoveItem() {
 		Player p = dummyPlayer();
@@ -116,7 +116,7 @@ public class GameLogicTests {
 		p.removeItem(d);
 		assertTrue(p.getItems().size()==0);
 	}
-	
+
 	@Test
 	public void testSetLocation() {
 		Player p = dummyPlayer();
@@ -124,15 +124,15 @@ public class GameLogicTests {
 		Location newLoc = p.getLocation();
 		assertTrue(newLoc.getX()==1 && newLoc.getY()==2);
 	}
-	
+
 	private Player dummyPlayer(){
 		return new Player(1);
 	}
-	
+
 	// ============================================================= //
 	// == TILE TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testConstructor1() {
 		Tile t = new Tile(false,false,false,false);
@@ -141,7 +141,7 @@ public class GameLogicTests {
 		assertFalse(t.hasDoor(Direction.SOUTH));
 		assertFalse(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testConstructor2() {
 		Tile t = new Tile(true,false,false,false);
@@ -150,7 +150,7 @@ public class GameLogicTests {
 		assertFalse(t.hasDoor(Direction.SOUTH));
 		assertFalse(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testConstructor3() {
 		Tile t = new Tile(true,false,true,false);
@@ -159,7 +159,7 @@ public class GameLogicTests {
 		assertTrue(t.hasDoor(Direction.SOUTH));
 		assertFalse(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testConstructor4() {
 		Tile t = new Tile(true,true,true,true);
@@ -168,7 +168,7 @@ public class GameLogicTests {
 		assertTrue(t.hasDoor(Direction.SOUTH));
 		assertTrue(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testAddDoor() {
 		Tile t = new Tile(true,false,false,false);
@@ -178,7 +178,7 @@ public class GameLogicTests {
 		assertFalse(t.hasDoor(Direction.SOUTH));
 		assertFalse(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testRemoveDoor() {
 		Tile t = new Tile(true,true,false,false);
@@ -188,54 +188,54 @@ public class GameLogicTests {
 		assertFalse(t.hasDoor(Direction.SOUTH));
 		assertFalse(t.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testCombine1() {
 		Tile t1 = new Tile(true,false,false,false);
 		Tile t2 = new Tile(false,false,true,false);
 		Tile t3 = t1.combineWith(t2);
-		
+
 		assertTrue(t3.hasDoor(Direction.NORTH));
 		assertFalse(t3.hasDoor(Direction.EAST));
 		assertTrue(t3.hasDoor(Direction.SOUTH));
 		assertFalse(t3.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testCombine2() {
 		Tile t1 = new Tile(false,true,false,false);
 		Tile t2 = new Tile(false,true,false,false);
 		Tile t3 = t1.combineWith(t2);
-		
+
 		assertFalse(t3.hasDoor(Direction.NORTH));
 		assertTrue(t3.hasDoor(Direction.EAST));
 		assertFalse(t3.hasDoor(Direction.SOUTH));
 		assertFalse(t3.hasDoor(Direction.WEST));
 	}
-	
+
 	@Test
 	public void testGetFilename() {
 		Tile t1 = new Tile(false,true,false,false);
 		Tile t2 = new Tile(true,true,true,true);
-				
+
 		assertTrue(t1.getFilename().equals("maps\\Map1.png"));
 		assertTrue(t2.getFilename().equals("maps\\Map0123.png"));
 		assertFalse(t2.getFilename().equals("maps\\Map123.png"));
 	}
-	
+
 	// ============================================================= //
 	// == MOVEMENT TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testStandardMove() {
 		Game game = new Game();
 		Player p = new Player(1);
-		game.addPlayer(p);		
+		game.addPlayer(p);
 		assertTrue(p.getLocation().equals(game.startLocation()));
-		
+
 		// Move one step EAST and ensure the player is in the correct location
-		assertTrue(game.movePlayer(p, Direction.EAST));		
+		assertTrue(game.movePlayer(p, Direction.EAST));
 		Location oneStepEast = game.room(Game.GAME_WIDTH/2, Game.GAME_HEIGHT/2)
 							   .location(Room.ROOM_WIDTH/2+1, Room.ROOM_HEIGHT/2);
 		assertTrue(p.getLocation().equals(oneStepEast));
@@ -245,17 +245,17 @@ public class GameLogicTests {
 	public void testDoorMove() {
 		Game game = new Game();
 		Player p = new Player(1);
-		game.addPlayer(p);		
-		
+		game.addPlayer(p);
+
 		Room zeroZero = game.room(0, 0);
 		zeroZero.setTile(new Tile(true,true,true,true));
-		
+
 		Room zeroOne = game.room(0, 1);
 		zeroOne.setTile(new Tile(true,true,true,true));
-		
+
 		p.setLocation(zeroZero.getDoorLocation(Direction.SOUTH));
-		assertTrue(game.movePlayer(p, Direction.SOUTH));	
-				
+		assertTrue(game.movePlayer(p, Direction.SOUTH));
+
 		Location oneStepSouth = zeroOne.getDoorLocation(Direction.NORTH);
 		assertTrue(p.getLocation().equals(oneStepSouth));
 	}
@@ -272,26 +272,15 @@ public class GameLogicTests {
 		assertFalse(game.movePlayer(p, Direction.NORTH));
 		assertTrue(p.getLocation().equals(start));
 	}
-		
+
 	// ============================================================= //
 	// == MINIMAP TESTS == //
 	// ============================================================= //
-	
-<<<<<<< HEAD
-	@Test
-	public void testGetWidth() {
-		
-		assertEquals(MiniMap.getWidth(),198);
-		
-	}
-=======
 
->>>>>>> b147142796ebf87796bd5bc9bae53c85d8150845
-	
 	// ============================================================= //
 	// == GAMESERIALIZE TESTS == //
 	// ============================================================= //
-	
+
 	@Test
 	public void testSave() {
 		Player player= new Player(69);
@@ -302,7 +291,7 @@ public class GameLogicTests {
 		System.out.println(save);
 		assertTrue(save.equals("PLAYER{ID{69}ITEMS{KEY{}}LOCATION{x{4}y{4}ROOM{x{4}y{4}ISEND{false}}}ORIENTATION{NORTH}ROOMSVISTED{ROOM{x{4}y{4}ISEND{false}}}}"));
 	}
-	
+
 
 	@Test
 	public void testLoad() {
@@ -317,6 +306,6 @@ public class GameLogicTests {
 		assertTrue(player.getItems().size()==1);
 		assertTrue(player.getItems().get(0).getFilename().equals("Key.png"));
 	}
-	
-	
+
+
 }
