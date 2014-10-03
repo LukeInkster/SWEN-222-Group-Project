@@ -86,13 +86,13 @@ public class StartFrame extends JFrame {
 				 String ipAddress = ip.getText();
 				 String username = name.getText();
 				 
-				 User user = new User(new Client(ipAddress, username));
+				 User user = new User(ipAddress, username);
 				 
 				 Panel panel = new Panel(user);
 				 Client client = user.getClient();
 				 
 				 // -- TODO: Fix this!
-				 client.push(new DummyEvent());
+				// client.push(new DummyEvent());
 				 client.update();
 				 dispose();
 				 

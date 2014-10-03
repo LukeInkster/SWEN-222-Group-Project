@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.Set;
 
+import project.client.User;
 import project.game.Player;
 import project.game.Room;
 import project.utils.GameUtils;
@@ -22,10 +23,10 @@ public class MiniMap {
 	private static int roomSize = 22;
 	
 	//private String[][] mapGrid = new String[numRooms][numRooms]; //string for now, maybe image to represent rooms doors later
-	private Player player;
+	private User user;
 	
-	public MiniMap(Player player){
-		this.player = player;
+	public MiniMap(User user){
+		this.user = user;
 	}
 	
 	/**
@@ -51,15 +52,17 @@ public class MiniMap {
 			}
 		}
 		
-		if(player==null){return;}
-		Set<Room> roomsVisited = player.getRoomsVisited();
+		if(user.getPlayer()==null){return;}	//TODO
+		Set<Room> roomsVisited = user.getPlayer().getRoomsVisited();
 		for(Room room:roomsVisited){
 			g.setColor(Color.white);
 			g.fillRect(room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize);
+			if(room.getTile()!=null){
 			Image img = GameUtils.loadImage(new File(room.getTile().getFilename()));
 			g.drawImage(img, room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize,null);
 			g.setColor(Color.black);
 			g.drawRect(room.getX()*roomSize, room.getY()*roomSize, roomSize, roomSize);
+			}
 		}
 		
 		

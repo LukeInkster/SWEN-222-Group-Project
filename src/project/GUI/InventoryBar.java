@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import project.client.User;
 import project.game.Item;
 import project.game.Player;
 import project.game.Room;
@@ -25,10 +26,10 @@ public class InventoryBar {
 	private int buffX = 10;//space around each item
 	private int buffY = 10;
 	private int imageSize = slotSize-2*buffY;
-	private Player player;
+	private User user;
 
-	public InventoryBar(Player player){
-		this.player = player;
+	public InventoryBar(User user){
+		this.user = user;
 	}
 
 	/**
@@ -44,8 +45,8 @@ public class InventoryBar {
 	 */
 	public void draw(Graphics g){
 			g.drawImage(GameUtils.loadImage(new File("assets\\InventoryBack.png")),0,0,WIDTH,HEIGHT,null);
-			if(player==null){return;}
-			List<Item> items = player.getItems();
+			if(user.getPlayer()==null){return;}
+			List<Item> items = user.getPlayer().getItems();
 			g.translate(edgeBuff, edgeBuff);
 		for(int i = 0;i<items.size();i++){
 			StringBuilder sb = new StringBuilder();

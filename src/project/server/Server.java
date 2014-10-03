@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import project.game.Door;
 import project.game.Game;
 import project.game.Key;
 import project.game.Player;
+import project.game.Tile;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
 import project.net.GameWorldUpdateEvent;
@@ -77,7 +79,11 @@ public class Server extends Thread {
 					thread.sendClient(ack, getClients().get(id));
 					// We'll add the client as a player to the game.
 					game.addPlayer(new Player(id));
+					//TODO delete these dummy items
 					game.getPlayer(id).addItem(new Key());
+					game.getPlayer(id).addItem(new Door());
+					game.getPlayer(id).addItem(new Tile(true,true,true,true));
+
 					// Then we should send a GameWorldUpdate to the player, giving the data required for rendering.
 					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
 					thread.sendClient(update, getClients().get(id));

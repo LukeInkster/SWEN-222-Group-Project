@@ -72,10 +72,10 @@ public class Panel extends JPanel{
 		display = new Display(user.getRoom());
 
 		//TODO : send player to MiniMap.
-		map = new MiniMap(user.getPlayer());
+		map = new MiniMap(user);
 
 		//TODO : send player to inventory.
-		inventory = new InventoryBar(user.getPlayer());
+		inventory = new InventoryBar(user);
 
 		//create Listeners
 		createListeners();
@@ -298,7 +298,7 @@ public class Panel extends JPanel{
 		p.setLocation(new Location(room3, 1, 1));
 		p.setLocation(new Location(room4, 1, 1));
 
-		User u = new User(new Client("127.0.0.1", "Jack"));
+		User u = new User("127.0.0.1", "Jack");
 		u.setPlayer(p);
 		new Panel(u);
 	}

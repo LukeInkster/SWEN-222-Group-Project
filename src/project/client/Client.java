@@ -15,15 +15,15 @@ public class Client {
 	boolean connectionAcknowledged = false;
 
 	// -- Connection buffer variable
-	private Player player;
-	// --
 
-	private String user;
+	private String userName;
 
-	public Client(String ip, String user){
+	private User user;
+
+	public Client(String ip, String userName, User user){
 		this.connection = new Connection(ip);
+		this.userName = userName;
 		this.user = user;
-
 		connection.start();
 	}
 
@@ -45,9 +45,9 @@ public class Client {
 			// -- CLIENT SIDE EDITS.
 
 			if(e instanceof GameWorldUpdateEvent){
-				//this.player = GameUtils.load(((GameWorldUpdateEvent)e).data);
-				System.out.println("[CLIENT: "+user+"] "+((GameWorldUpdateEvent)e).data);
-				//System.out.println(this + "PLAYER UPDATE [ " + player.getId() + " ]");
+				user.setPlayer(GameUtils.load((((GameWorldUpdateEvent) e).data)));
+				System.out.printf("Player inventory: %s\n",user.getPlayer().getItems().get(0).getFilename());
+				System.out.println("[CLIENT: "+userName+"] "+((GameWorldUpdateEvent)e).data);
 			}
 
 			// TODO: Handle Client Side events HERE!
@@ -61,13 +61,8 @@ public class Client {
 	}
 
 	public String toString(){
-		return "[CLIENT: " + user + " ]";
+		return "[CLIENT: " + userName + " ]";
 	}
 
-	public static void main(String[] args){
-		Client client = new Client("127.0.0.1", "Jack");
-		client.push(new DummyEvent());
-		client.update();
-	}
 
 }

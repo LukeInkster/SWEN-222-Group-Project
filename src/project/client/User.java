@@ -25,8 +25,8 @@ public class User {
 	 * Constructor : Creates an instance of a User in respect to a player in the game.
 	 * @param p : The player the user controls in the game.
 	 */
-	public User(Client client){
-		this.client = client;
+	public User(String ipAddress, String username){
+		this.client = new Client(ipAddress,username,this);
 	}
 
 	//GETTER AND SETTER METHODS//
