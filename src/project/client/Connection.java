@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import project.net.Event;
 import project.server.Server;
+import project.utils.GameUtils;
 
 public class Connection extends Thread{
 	
@@ -91,7 +92,6 @@ public class Connection extends Thread{
 			System.out.println(this + "[ERROR] Client Recieved Error that is not an event!");
 			return null;
 		}
-		
 		return (Event) in;
 	}
 	

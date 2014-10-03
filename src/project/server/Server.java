@@ -11,6 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import project.game.Game;
+import project.game.Key;
 import project.game.Player;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
@@ -76,6 +77,7 @@ public class Server extends Thread {
 					thread.sendClient(ack, getClients().get(id));
 					// We'll add the client as a player to the game.
 					game.addPlayer(new Player(id));
+					game.getPlayer(id).addItem(new Key());
 					// Then we should send a GameWorldUpdate to the player, giving the data required for rendering.
 					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
 					thread.sendClient(update, getClients().get(id));

@@ -30,6 +30,9 @@ import project.game.Location;
 import project.game.Player;
 import project.game.Room;
 import project.game.Tile;
+import project.net.DummyEvent;
+import project.net.Event;
+import project.net.GameWorldUpdateEvent;
 import project.net.PlayerMoveEvent;
 
 public class Panel extends JPanel{
@@ -160,7 +163,7 @@ public class Panel extends JPanel{
 			@Override
 			public void mousePressed(MouseEvent e){
 				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
-				//TODO find object clicked on and send info to server
+				user.getClient().push(new GameWorldUpdateEvent("x "+e.getX()));
 			}
 
 			@Override

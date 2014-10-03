@@ -8,7 +8,9 @@ import project.game.Game;
 import project.net.AcknowledgeEvent;
 import project.net.DummyEvent;
 import project.net.Event;
+import project.net.GameWorldUpdateEvent;
 import project.net.PlayerMoveEvent;
+import project.utils.GameUtils;
 
 /**
  * Thread that controls all updates to the Game World. Set as a Daemon thread, as it is controlled by the Server. Should we shutdown the server, and the only threads
@@ -61,8 +63,11 @@ public class UpdateThread extends Thread {
 
 			}
 
-
-
+			else if(evt instanceof GameWorldUpdateEvent){
+				GameWorldUpdateEvent up = new GameWorldUpdateEvent(((GameWorldUpdateEvent) evt).data);
+				sendAllClients(up);
+				System.out.println("[SERVER]"+((GameWorldUpdateEvent) evt).data);
+			}
 
 		}
 	}
