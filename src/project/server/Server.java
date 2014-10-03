@@ -20,6 +20,7 @@ import project.utils.GameUtils;
 /**
  * Server object that extends Thread. Class handles all new connections to the Server, and outputs them to ServerThread and UpdateThreads.
  * Based on the Multithreaded Server tutorial by Jakob Jenkov: http://tutorials.jenkov.com/java-multithreaded-servers/multithreaded-server.html
+ * And ZA JAVA on Youtube: https://www.youtube.com/watch?v=U0bH6aJgmA8
  * @author Jack
  *
  */

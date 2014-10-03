@@ -10,11 +10,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import project.client.Client;
+import project.client.User;
 import project.game.Game;
 import project.server.Server;
 
 public class StartFrame extends JFrame {
+	
+	private JPanel buttons;
+	private JPanel hostInfo;
+	private JTextField ip;
+	private JTextField name;
+	private JButton button;
+	private JLabel title;
+	
 
 	public StartFrame(){
 		super("Game Changer");
@@ -27,17 +38,15 @@ public class StartFrame extends JFrame {
 
 	public void initialise(){
 
-		JPanel buttons = new JPanel();
+		buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2, 10, 10));
 
-		JButton button = new JButton("Host");
+		button = new JButton("Host");
 
-		JLabel title = new JLabel("Host or Join?", JLabel.CENTER);
+		title = new JLabel("Host or Join?", JLabel.CENTER);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Server server = new Server(new Game());
-				server.start();
-				dispose();
+				newServer();
 			}
 		});
 		buttons.add(button);
@@ -45,15 +54,46 @@ public class StartFrame extends JFrame {
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Create new GUI
+				setVisible(false);
+				remove(buttons);
+				title.setText("Please Enter the Host Information below:");
+				newGUI();
 			}
 		});
 
-        setPreferredSize(new Dimension(400, 110));
+        setPreferredSize(new Dimension(400, 120));
 
 		buttons.add(button);
 		add(buttons, BorderLayout.SOUTH);
 		add(title, BorderLayout.NORTH);
-
 	}
+	
+	private void newServer(){
+		Server server = new Server(new Game());
+	}
+	
+	private void newGUI(){
+		hostInfo = new JPanel();
+		ip = new JTextField("IP", 15);
+		name = new JTextField("User Name", 15);
+		button = new JButton("Connect");
+		button.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 String ipAddress = ip.getText();
+				 String username = name.getText();
+				 
+				 Panel panel = new Panel(new User(new Client(ipAddress, username)));
+				 
+				 
+			}
+		});
+		hostInfo.add(ip);
+		hostInfo.add(name);
+		hostInfo.add(button);
+		add(hostInfo);
+		setVisible(true);
+	}
+	
+	
 }

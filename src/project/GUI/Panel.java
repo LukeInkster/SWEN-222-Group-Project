@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import project.client.Client;
 import project.client.User;
 import project.game.Direction;
 import project.game.Door;
@@ -294,7 +295,8 @@ public class Panel extends JPanel{
 		p.setLocation(new Location(room3, 1, 1));
 		p.setLocation(new Location(room4, 1, 1));
 
-		User u = new User(p);
+		User u = new User(new Client("127.0.0.1", "Jack"));
+		u.setPlayer(p);
 		new Panel(u);
 	}
 }

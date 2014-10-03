@@ -9,6 +9,7 @@ import project.net.Event;
 /**
  * ServerThread: Takes incoming objects, and sends it to the change queue on the server.
  * Based on the Multithreaded Server tutorial by Jakob Jenkov: http://tutorials.jenkov.com/java-multithreaded-servers/multithreaded-server.html
+ * And ZA JAVA on Youtube: https://www.youtube.com/watch?v=U0bH6aJgmA8
  * @author Jack
  *
  */
