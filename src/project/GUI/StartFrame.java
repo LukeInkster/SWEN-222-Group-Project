@@ -14,7 +14,9 @@ import javax.swing.JTextField;
 
 import project.client.Client;
 import project.client.User;
+
 import project.game.Game;
+import project.net.DummyEvent;
 import project.server.Server;
 
 public class StartFrame extends JFrame {
@@ -70,6 +72,7 @@ public class StartFrame extends JFrame {
 	
 	private void newServer(){
 		Server server = new Server(new Game());
+		server.start();
 	}
 	
 	private void newGUI(){
@@ -83,7 +86,15 @@ public class StartFrame extends JFrame {
 				 String ipAddress = ip.getText();
 				 String username = name.getText();
 				 
-				 Panel panel = new Panel(new User(new Client(ipAddress, username)));
+				 User user = new User(new Client(ipAddress, username));
+				 
+				 Panel panel = new Panel(user);
+				 Client client = user.getClient();
+				 
+				 // -- TODO: Fix this!
+				 client.push(new DummyEvent());
+				 client.update();
+				 dispose();
 				 
 				 
 			}

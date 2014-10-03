@@ -218,9 +218,9 @@ public class GameLogicTests {
 		Tile t1 = new Tile(false,true,false,false);
 		Tile t2 = new Tile(true,true,true,true);
 
-		assertTrue(t1.getFilename().equals("maps\\Map1.png"));
-		assertTrue(t2.getFilename().equals("maps\\Map0123.png"));
-		assertFalse(t2.getFilename().equals("maps\\Map123.png"));
+		assertTrue(t1.getFilename().equals("assets\\maps\\Map1.png"));
+		assertTrue(t2.getFilename().equals("assets\\maps\\Map0123.png"));
+		assertFalse(t2.getFilename().equals("assets\\maps\\Map123.png"));
 	}
 
 	// ============================================================= //
@@ -274,10 +274,6 @@ public class GameLogicTests {
 	}
 
 	// ============================================================= //
-	// == MINIMAP TESTS == //
-	// ============================================================= //
-
-	// ============================================================= //
 	// == GAMESERIALIZE TESTS == //
 	// ============================================================= //
 
@@ -285,26 +281,36 @@ public class GameLogicTests {
 	public void testSave() {
 		Player player= new Player(69);
 		player.addItem(new Key());
-		player.setLocation(new Location(new Room(4,4,false),4,4));
+		Room room = new Room(3,3,false);
+		room.setTile(new Tile(true,true,false,true));
+		player.setLocation(new Location(room,4,4));
 		player.setOrientation(Direction.NORTH);
 		String save = GameUtils.save(player);
-		System.out.println(save);
-		assertTrue(save.equals("PLAYER{ID{69}ITEMS{KEY{}}LOCATION{x{4}y{4}ROOM{x{4}y{4}ISEND{false}}}ORIENTATION{NORTH}ROOMSVISTED{ROOM{x{4}y{4}ISEND{false}}}}"));
+		assertTrue(save.equals("PLAYER<ID<69>ITEMS<KEY<>>LOCATION<x<4>y<4>ROOM<x<3>y<3>ISEND<false>>TILE<true;true;false;true;>>ORIENTATION<NORTH>ROOMSVISITED<ROOM<x<3>y<3>ISEND<false>>>"));
 	}
 
 
 	@Test
 	public void testLoad() {
-		Player player= new Player(69);
+		Player player = new Player(69);
 		player.addItem(new Key());
-		player.setLocation(new Location(new Room(4,4,false),4,4));
+		player.addItem(new Tile(true,true,false,true));
+		player.setLocation(new Location(new Room(4,4,false),6,6));
+		Room room = new Room(3,3,false);
+		room.setTile(new Tile(true,true,false,true));
+		player.setLocation(new Location(room,5,5));
 		player.setOrientation(Direction.NORTH);
 		String save = GameUtils.save(player);
 		player = GameUtils.load(save);
 		assertEquals(player.getId(),69);
 		List<Item> items = player.getItems();
-		assertTrue(player.getItems().size()==1);
-		assertTrue(player.getItems().get(0).getFilename().equals("Key.png"));
+		assertTrue(player.getItems().size()==2);
+		assertTrue(player.getItems().get(1).getFilename().equals("assets\\maps\\Map013.png"));
+		assertTrue(player.getItems().get(0).getFilename().equals("assets\\Key.png"));
+		assertTrue(player.getLocation().getX()==5);
+		assertTrue(player.getRoomsVisited().size()==2);
+		assertTrue(player.getLocation().getRoom().hasDoor(Direction.NORTH));
+
 	}
 
 
