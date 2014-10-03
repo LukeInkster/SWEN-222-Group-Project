@@ -9,8 +9,8 @@ import java.util.Set;
 public class Game implements Iterable<Player>{
 	// ------ CONSTANTS ------ //
 	public static final int MAX_PLAYERS = 4;
-	public static final int GAME_WIDTH = 6;
-	public static final int GAME_HEIGHT = 6;
+	public static final int GAME_WIDTH = 9;
+	public static final int GAME_HEIGHT = 9;
 	
 	// ------ VARIABLES ------ //	
 	private Room[][] rooms = new Room[GAME_WIDTH][GAME_HEIGHT];

@@ -37,7 +37,7 @@ public class GameUtils {
 	/**
 	 * returns a string containing players fields
 	 * example:
-	 * "PLAYER{ITEMS{KEY{}TILE{true;false;false;true;}}LOCATION{
+	 * PLAYER<ID<69>ITEMS<KEY<>>LOCATION<x<4>y<4>ROOM<x<3>y<3>ISEND<false>>TILE<true;true;false;true;>>ORIENTATION<NORTH>ROOMSVISITED<ROOM<x<3>y<3>ISEND<false>>>
 	 * @param player
 	 * @return String of player and its fields
 	 */
@@ -219,6 +219,13 @@ public class GameUtils {
 		Tile tile = new Tile(scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean(),scan.nextBoolean());
 		gobble(";>");
 		return tile;
+	}
+	
+	/**
+	 * prints Hello World to console
+	 */
+	public static void shout(){
+		System.out.println("Hello World!");
 	}
 
 	/**
