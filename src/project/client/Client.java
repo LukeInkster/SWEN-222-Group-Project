@@ -45,6 +45,8 @@ public class Client {
 			// -- CLIENT SIDE EDITS.
 
 			if(e instanceof GameWorldUpdateEvent){
+				System.out.printf("data %s/n", ((GameWorldUpdateEvent)e).data);
+
 				this.player = GameUtils.load(((GameWorldUpdateEvent)e).data);
 				System.out.println(this + "PLAYER UPDATE [ " + player.getId() + " ]");
 			}

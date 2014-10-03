@@ -44,6 +44,7 @@ public class InventoryBar {
 	 */
 	public void draw(Graphics g){
 			g.drawImage(GameUtils.loadImage(new File("assets\\InventoryBack.png")),0,0,WIDTH,HEIGHT,null);
+			if(player==null){return;}
 			List<Item> items = player.getItems();
 			g.translate(edgeBuff, edgeBuff);
 		for(int i = 0;i<items.size();i++){

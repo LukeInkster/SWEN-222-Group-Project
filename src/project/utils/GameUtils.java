@@ -191,6 +191,9 @@ public class GameUtils {
 	}
 
 	private static void parseItem() {
+		if(peek().charAt(0)=='>'){
+			gobble(">");
+			return;}
 		scan.useDelimiter("<");
 		String itemType = scan.next();
 		switch(itemType){

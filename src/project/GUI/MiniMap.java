@@ -51,6 +51,7 @@ public class MiniMap {
 			}
 		}
 		
+		if(player==null){return;}
 		Set<Room> roomsVisited = player.getRoomsVisited();
 		for(Room room:roomsVisited){
 			g.setColor(Color.white);
