@@ -1,3 +1,4 @@
+package project.main;
 import project.GUI.StartFrame;
 
 /**

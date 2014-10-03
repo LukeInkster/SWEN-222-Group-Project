@@ -274,10 +274,6 @@ public class GameLogicTests {
 	}
 
 	// ============================================================= //
-	// == MINIMAP TESTS == //
-	// ============================================================= //
-
-	// ============================================================= //
 	// == GAMESERIALIZE TESTS == //
 	// ============================================================= //
 
@@ -290,7 +286,7 @@ public class GameLogicTests {
 		player.setLocation(new Location(room,4,4));
 		player.setOrientation(Direction.NORTH);
 		String save = GameUtils.save(player);
-		assertTrue(save.equals("PLAYER<ID<69>ITEMS<KEY<>>LOCATION<x<4>y<4>ROOM<x<3>y<3>ISEND<false>TILE<true;true;false;true;>>>ORIENTATION<NORTH>ROOMSVISITED<ROOM<x<3>y<3>ISEND<false>>>"));
+		assertTrue(save.equals("PLAYER<ID<69>ITEMS<KEY<>>LOCATION<x<4>y<4>ROOM<x<3>y<3>ISEND<false>>TILE<true;true;false;true;>>ORIENTATION<NORTH>ROOMSVISITED<ROOM<x<3>y<3>ISEND<false>>>"));
 	}
 
 

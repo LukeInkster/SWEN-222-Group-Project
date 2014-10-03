@@ -11,7 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import project.client.Client;
 import project.game.Game;
+import project.net.DummyEvent;
 import project.server.Server;
 
 public class StartFrame extends JFrame {
@@ -46,6 +48,10 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Create new GUI
+				Client client = new Client("127.0.0.1", "Jack");
+				client.push(new DummyEvent());
+				client.update();
+				dispose();
 			}
 		});
 
