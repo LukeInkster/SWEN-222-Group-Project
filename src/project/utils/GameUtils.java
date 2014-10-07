@@ -22,7 +22,7 @@ import project.game.Tile;
 
 /**
  * Class of Static methods to serialize the objects required for the
- * @author Jack
+ * @author Jack Robinson, Mike Simpson
  *
  */
 
@@ -124,7 +124,7 @@ public class GameUtils {
 	private static void gobble(String string) {
 		scan.skip(string);
 	}
-	
+
 	private static String peek(){
 		String str = scan.nextLine();
 		Scanner temp = new Scanner (str);
@@ -215,7 +215,7 @@ public class GameUtils {
 			return;}
 		else{parseItem();}
 	}
-	
+
 	private static Tile parseTile(){
 		scan.useDelimiter(";");
 		gobble("<");
@@ -223,7 +223,7 @@ public class GameUtils {
 		gobble(";>");
 		return tile;
 	}
-	
+
 	/**
 	 * prints Hello World to console
 	 */
