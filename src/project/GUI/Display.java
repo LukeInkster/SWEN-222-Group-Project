@@ -114,6 +114,31 @@ public class Display {
 				}
 	}
 	
+	/**
+	 * draws interactable objects with special images with pure colors for mouse listener
+	 * @param g
+	 */
+	public void drawInteractable(Graphics g){
+		//translate to center the room
+		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT),
+		(Display.HEIGHT/2)-((tileHeight*Room.ROOM_HEIGHT)/2)+wallHeight/2);
+		for(int y=0;y<Room.ROOM_HEIGHT;y++){
+			for(int x=0;x<Room.ROOM_WIDTH;x++){
+
+				//TODO : checks to see if there is a door above if so draws it.
+				
+				//TODO : checks to see if there is a door on the side if so draws it
+								
+				//Sets the color for the outline of the test tiles and then draws them.
+				g.setColor(Color.CYAN);
+				g.fillRect((x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight);
+
+				//TODO : check to see if there is a item on the tile if so draw it.
+
+			}
+		}
+	}
+	
 	 private AlphaComposite makeComposite(float alpha) {
 		  int type = AlphaComposite.SRC_OVER;
 		  return(AlphaComposite.getInstance(type, alpha));
