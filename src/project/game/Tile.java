@@ -1,5 +1,7 @@
 package project.game;
 
+import java.io.File;
+
 public class Tile extends Item {
 	private boolean[] doors;
 
@@ -55,7 +57,7 @@ public class Tile extends Item {
 	 */
 	public String getFilename(){
 		StringBuilder sb = new StringBuilder();
-		sb.append("assets\\maps\\Map");
+		sb.append("assets"+File.separator+"maps"+File.separator+"Map");
 		if(doors[0]){sb.append("0");}
 		if(doors[1]){sb.append("1");}
 		if(doors[2]){sb.append("2");}
