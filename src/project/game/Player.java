@@ -141,6 +141,27 @@ public class Player implements Entity, Serializable{
 		}
 		return null; //Dead code
 	}
+
+	/**
+	 * @return The Location the player is facing
+	 */
+	public Location locationFacing(){
+		Room room = location.getRoom();
+		return room.adjecentLocation(location, orientation);
+	}
+
+	/**
+	 * @return A set of all the locations adjacent to the players location
+	 */
+	public Set<Location> adjacentLocations(){
+		Room room = location.getRoom();
+		Set<Location> result = new HashSet<Location>();
+		for(Direction dir:Direction.values()){
+			Location loc = room.adjecentLocation(location, dir);
+			if(loc!=null) result.add(loc);
+		}
+		return result;
+	}
 	
 	/**
 	 *  This is an equals method that implements a basic shallow comparison which is used to aid in

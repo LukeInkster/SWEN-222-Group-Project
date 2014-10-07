@@ -54,7 +54,7 @@ public class ServerThread extends Thread {
 					continue;
 				}
 
-				if(!(obj instanceof Event)) continue; 						// Means we have recieved an object we shouldn't have...
+				if(!(obj instanceof Event)) continue; 						// Means we have received an object we shouldn't have...
 				else server.getUpdates().add(new Update(id, (Event)obj));	// Else, add it to the change queue on the server thread!
 
 				lastIncoming = System.currentTimeMillis();
