@@ -94,8 +94,12 @@ public class Game implements Iterable<Player>{
 		// room through any path other than an open door
 		if(targetLoc==null) return false;
 
-		// Success state: move the player and return true
+		// Success state: move the player, update the entity on current and target
+		// Locations and return true
 		player.setLocation(targetLoc);
+		currentLoc.setEntity(null);
+		targetLoc.setEntity(player);
+
 		return true;
 	}
 

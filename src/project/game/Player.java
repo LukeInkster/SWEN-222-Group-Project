@@ -1,5 +1,6 @@
 package project.game;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -118,7 +119,25 @@ public class Player implements Entity{
 		this.id = id;
 	}
 
-	public void setRoomsVisited(Set<Room> roomsVisited) {
+	/**
+	 * @param the set of rooms the player has visited
+	 */
+	public void setRoomsVisited(Set<Room> roomsVisited){
 		this.roomsVisited = roomsVisited;
+	}
+
+	@Override
+	public String getFilename() {
+		switch(orientation){
+		case NORTH:
+			return "assets"+File.separator+"PlayerNorth.png";
+		case EAST:
+			return "assets"+File.separator+"PlayerEast.png";
+		case SOUTH:
+			return "assets"+File.separator+"PlayerSouth.png";
+		case WEST:
+			return "assets"+File.separator+"PlayerWest.png";
+		}
+		return null; //Dead code
 	}
 }
