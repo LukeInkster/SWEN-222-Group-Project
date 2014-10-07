@@ -1,8 +1,9 @@
 package project.game;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class Tile extends Item {
+public class Tile extends Item implements Serializable{
 	private boolean[] doors;
 
 	public Tile(boolean hasDoorNorth, boolean hasDoorEast,
