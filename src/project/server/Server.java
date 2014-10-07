@@ -88,7 +88,7 @@ public class Server extends Thread {
 					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
 					thread.sendClient(update, getClients().get(id));
 					// Then we should update status.
-					System.out.println("[SERVER] Client Connected! ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
+					System.out.println("[SERVER] Client Connected: [ " + client.getInetAddress().toString() + " ] -//- ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
 					id++;
 				}
 		}catch(IOException e){
@@ -139,9 +139,8 @@ public class Server extends Thread {
 		return updates;
 	}
 
-	public static void main(String[] args){
-		// Sanity Tests
-		Server server = new Server(new Game());
-		server.start();
-	}
+	//public static void main(String[] args){
+	//	Server server = new Server(new Game());
+	//	server.start();
+	//}
 }

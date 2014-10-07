@@ -11,35 +11,35 @@ public class Game implements Iterable<Player>{
 	public static final int MAX_PLAYERS = 4;
 	public static final int GAME_WIDTH = 9;
 	public static final int GAME_HEIGHT = 9;
-	
-	// ------ VARIABLES ------ //	
+
+	// ------ VARIABLES ------ //
 	private Room[][] rooms = new Room[GAME_WIDTH][GAME_HEIGHT];
-	
+
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
-	
+
 	private Room startRoom;
 	private Location startLocation;
-	
+
 	public Game(){
 		generateRooms();
 		// Set startLoc to the middle tile of the middle room
 		startLocation = (rooms[GAME_WIDTH/2][GAME_HEIGHT/2].location(Room.ROOM_WIDTH/2, Room.ROOM_HEIGHT/2));
-		System.out.println("[GAME] Game started!");
+		System.out.println("[GAME]\t Game started!");
 	}
-	
+
 	private void generateRooms() {
 		// choose a random x and y within the bounds of the game as the endRoom
 		int endX = (int)(Math.random()*GAME_WIDTH);
 		int endY = (int)(Math.random()*GAME_HEIGHT);
-		
+
 		for(int x=0;x<GAME_WIDTH;x++){
 			for(int y=0;y<GAME_HEIGHT;y++){
 				rooms[x][y] = new Room(x,y,(x==endX && y==endY));
 			}
 		}
-		
+
 		// startRoom is middle room
-		startRoom = rooms[GAME_WIDTH/2][GAME_HEIGHT/2];		
+		startRoom = rooms[GAME_WIDTH/2][GAME_HEIGHT/2];
 		// startRoom has doors on all walls
 		startRoom.setTile(new Tile(true,true,true,true));
 		// startLocation is middle location in startRoom
@@ -74,33 +74,33 @@ public class Game implements Iterable<Player>{
 		if(currentLoc.equals(currentRoom.getDoorLocation(dir))){
 			Room targetRoom = adjacentRoom(currentRoom,dir);
 
-			// targetRoom will be null if the player is attempting to 
+			// targetRoom will be null if the player is attempting to
 			// move off the Room grid
 			if(targetRoom==null) return false;
-			
+
 			// If either currentRoom or targetRoom does not have a door
 			// on their adjoining wall, return false.
 			if(!currentRoom.hasDoor(dir)) return false;
 			if(!targetRoom.hasDoor(dir.opposite())) return false;
-			
+
 			targetLoc = targetRoom.getDoorLocation(dir.opposite());
 		}
 		// Otherwise get the Location one step in the given direction
 		else{
 			targetLoc = currentRoom.adjecentLocation(currentLoc, dir);
 		}
-		
+
 		// targetLoc will be null if the player is attempting to move out of the
 		// room through any path other than an open door
 		if(targetLoc==null) return false;
-		
+
 		// Success state: move the player and return true
 		player.setLocation(targetLoc);
 		return true;
 	}
-	
+
 	/**
-	 * Returns the Room adjacent to the parameter Room 
+	 * Returns the Room adjacent to the parameter Room
 	 * in the parameter Direction
 	 */
 	public Room adjacentRoom(Room room, Direction direction){
@@ -116,7 +116,7 @@ public class Game implements Iterable<Player>{
 	public Room[][] getRooms(){
 		return rooms;
 	}
-	
+
 	/**
 	 * Returns the Room at the coordinates (x,y) in the Game or null
 	 * if the x or y coordinate is outside the bounds of the Game
@@ -138,14 +138,14 @@ public class Game implements Iterable<Player>{
 		player.setLocation(startLocation);
 		return true;
 	}
-	
+
 	/**
 	 * Returns the player associated with the parameter playerID
 	 */
 	public Player player(int playerID){
 		return players.get(playerID);
 	}
-	
+
 	/**
 	 * Returns an iterator over the players in the game
 	 */
@@ -166,14 +166,14 @@ public class Game implements Iterable<Player>{
 	public Room startRoom() {
 		return startRoom;
 	}
-	
+
 	/**
 	 * @return The player with the parameter playerID
 	 */
 	public Player getPlayer(int id){
 		return players.get(id);
 	}
-	
+
 	/**
 	 * @return The set of all players in the game
 	 */
