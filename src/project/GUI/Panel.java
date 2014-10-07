@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -165,13 +166,15 @@ public class Panel extends JPanel{
 				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
 				user.getClient().push(new GameWorldUpdateEvent("x "+e.getX()));
 				//get object clicked on, can be door, wall, or chest
-				//buffers the image
-				Image offset = createImage(getWidth(),getHeight());
-
-				//Retrieves the graphics of the buffered image
+				//make a graphics to draw interactable objects
+				Image offset = (BufferedImage) createImage(getWidth(),getHeight());
 				Graphics2D offgc = (Graphics2D) offset.getGraphics();
-				//draws the display.
-				display.draw(offgc);
+				display.drawInteractable(offgc);
+				int c = ((BufferedImage) offset).getRGB(e.getX(),e.getY());
+				int  red = (c & 0x00ff0000) >> 16;
+				int  green = (c & 0x0000ff00) >> 8;
+				int  blue = c & 0x000000ff;
+				System.out.printf("Red: %d Green: %d Blue: %d\n", red,green,blue);
 			}
 
 			@Override
