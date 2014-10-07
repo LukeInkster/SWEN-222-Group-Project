@@ -34,9 +34,9 @@ public class Display {
 	private Room room;
 
 	//The images to be used
-	Image tile = GameUtils.loadImage(new File("assets//TileTest2.png"));
-	Image wall = GameUtils.loadImage(new File("assets//Wall2.png"));
-	Image wallIso = GameUtils.loadImage(new File("assets//WallIso2.png"));
+	Image tile = GameUtils.loadImage(new File("assets"+File.separator+"TileTest2.png"));
+	Image wall = GameUtils.loadImage(new File("assets"+File.separator+"Wall2.png"));
+	Image wallIso = GameUtils.loadImage(new File("assets"+File.separator+"WallIso2.png"));
 	
 
 	/**
@@ -52,7 +52,7 @@ public class Display {
 	public void draw(Graphics g){
 
 		//black background
-		g.drawImage(GameUtils.loadImage(new File("assets\\Smoke.png")),0,0,WIDTH,HEIGHT,null);
+		g.drawImage(GameUtils.loadImage(new File("assets"+File.separator+"Smoke.png")),0,0,WIDTH,HEIGHT,null);
 		
 		//translate to center the room
 		g.translate((Display.WIDTH/2)-((Room.ROOM_WIDTH*tileWidth+Room.ROOM_HEIGHT*slantWidth)/2)+(slantWidth*Room.ROOM_HEIGHT),
