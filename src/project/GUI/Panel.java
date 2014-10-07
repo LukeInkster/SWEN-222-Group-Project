@@ -164,6 +164,7 @@ public class Panel extends JPanel{
 			public void mousePressed(MouseEvent e){
 				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
 				user.getClient().push(new GameWorldUpdateEvent("x "+e.getX()));
+				//get object clicked on, can be door, wall,
 			}
 
 			@Override

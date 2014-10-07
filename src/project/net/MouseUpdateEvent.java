@@ -1,7 +1,7 @@
 package project.net;
 
 /**
- * update event for clientsending mouse clicks to server
+ * update event for client sending mouse clicks to server
  * @author Mike
  *
  */
