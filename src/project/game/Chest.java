@@ -1,5 +1,6 @@
 package project.game;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Chest extends Item implements Iterable<Item>{
 
 	@Override
 	public String getFilename() {
-		return "assets\\Chest.png";
+		return "assets"+File.separator+"Chest.png";
 	}
 
 	/**

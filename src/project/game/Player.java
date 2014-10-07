@@ -5,19 +5,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Player {
+public class Player implements Entity{
 	private static final int maxItems = 12;
-	private List<Item> items = new ArrayList<Item>();	
+	private List<Item> items = new ArrayList<Item>();
 	private Location location = new Location(null,0,0);	//TODO
 	private Direction orientation;
 	private Set<Room> roomsVisited = new HashSet<Room>();
 	private int id;
-	
+
 	public Player(int id){
 		this.setId(id);
 		this.setOrientation(Direction.NORTH);
 	}
-	
+
 	/**
 	 * Adds the parameter item to the players items list if they
 	 * have room in their inventory for the item, returns true if
@@ -30,14 +30,14 @@ public class Player {
 		this.items.add(item);
 		return true;
 	}
-	
+
 	/**
 	 * @return The list of items held by the player
 	 */
 	public List<Item> getItems(){
 		return this.items;
 	}
-	
+
 	/**
 	 * Removes the parameter item from the players items list
 	 * @param item The item to remove
@@ -45,14 +45,14 @@ public class Player {
 	public void removeItem(Item item){
 		this.items.remove(item);
 	}
-	
+
 	/**
 	 * Rotates the player 90 degrees clockwise
 	 */
 	public void rotateClockwise(){
 		this.setOrientation(getOrientation().clockwise());
 	}
-	
+
 	/**
 	 * Rotates the player 90 degrees anticlockwise
 	 */

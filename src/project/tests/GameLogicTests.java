@@ -61,7 +61,7 @@ public class GameLogicTests {
 		int x = 1;
 		int y = 2;
 		Location loc = new Location(null, x,y);
-		assertFalse(loc.hasItem());
+		assertFalse(loc.hasEntity());
 		assertTrue(loc.getX()==x);
 		assertTrue(loc.getY()==y);
 	}
@@ -69,26 +69,26 @@ public class GameLogicTests {
 	@Test
 	public void testSetItem() {
 		Location loc = dummyLocation();
-		loc.setItem(new Door());
-		assertTrue(loc.hasItem());
+		loc.setEntity(new Door());
+		assertTrue(loc.hasEntity());
 	}
 
 	@Test
 	public void testPeekItem() {
 		Location loc = dummyLocation();
 		Door d = new Door();
-		loc.setItem(d);
+		loc.setEntity(d);
 		assertTrue(loc.peekItem()==d);
-		assertTrue(loc.hasItem());
+		assertTrue(loc.hasEntity());
 	}
 
 	@Test
 	public void testTakeItem() {
 		Location loc = dummyLocation();
 		Door d = new Door();
-		loc.setItem(d);
-		assertTrue(loc.takeItem()==d);
-		assertFalse(loc.hasItem());
+		loc.setEntity(d);
+		assertTrue(loc.takeEntity()==d);
+		assertFalse(loc.hasEntity());
 	}
 
 	private Location dummyLocation(){

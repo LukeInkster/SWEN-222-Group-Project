@@ -4,11 +4,11 @@ public class Location {
 	// X & Y coordinates of this Location within the Room grid
 	private final int x;
 	private final int y;
-	
-	private Item item;
-	
+
+	private Entity entity;
+
 	private Room room;
-	
+
 	public Location(Room room, int x, int y){
 		this.room = room;
 		this.x = x;
@@ -16,39 +16,39 @@ public class Location {
 	}
 
 	/**
-	 * @return True if there is an item at this location
+	 * @return True if there is an Entity at this location
 	 */
-	public boolean hasItem(){
-		return item != null;
+	public boolean hasEntity(){
+		return entity != null;
 	}
-	
+
 	/**
-	 * Returns the item on this location. DOES NOT remove it.
-	 * @return The item on this location, null if there is no item
+	 * Returns the Entity on this location. DOES NOT remove it.
+	 * @return The Entity on this location, null if there is no Entity
 	 */
-	public Item peekItem(){
-		return item;
+	public Entity peekItem(){
+		return entity;
 	}
-	
+
 	/**
-	 * Returns the item on this location and removes it from this location	 
-	 * @return The item on this location, null if there is no item
+	 * Returns the Entity on this location and removes it from this location
+	 * @return The Entity on this location, null if there is no Entity
 	 */
-	public Item takeItem(){
-		Item result = this.item;
-		this.item = null;
+	public Entity takeEntity(){
+		Entity result = this.entity;
+		this.entity = null;
 		return result;
 	}
-	
+
 	/**
-	 * Sets the item on this location to the parameter item and
-	 * returns the item that was already on the location	 
-	 * @param item The item to put on this location
-	 * @return The item that was already on the location, null if there was none
+	 * Sets the Entity on this location to the parameter Entity and
+	 * returns the Entity that was already on the location
+	 * @param Entity The Entity to put on this location
+	 * @return The Entity that was already on the location, null if there was none
 	 */
-	public Item setItem(Item item){
-		Item result = this.item;
-		this.item = item;
+	public Entity setEntity(Entity entity){
+		Entity result = this.entity;
+		this.entity = entity;
 		return result;
 	}
 
