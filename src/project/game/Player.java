@@ -1,12 +1,13 @@
 package project.game;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Player implements Entity{
+public class Player implements Entity, Serializable{
 	private static final int maxItems = 12;
 	private List<Item> items = new ArrayList<Item>();
 	private Location location = new Location(null,0,0);	//TODO
@@ -139,5 +140,20 @@ public class Player implements Entity{
 			return "assets"+File.separator+"PlayerWest.png";
 		}
 		return null; //Dead code
+	}
+	
+	/**
+	 *  This is an equals method that implements a basic shallow comparison which is used to aid in
+	 *  comparing events received by the client.
+	 * @return
+	 */
+	public boolean equals(Player player){
+		
+		//Checks to see if the  id of the player is the same, if so then they are considered equal
+		//regardless of their other variables (possibly outdated)
+		if(this.id==player.id){
+			return true;
+		}
+		return false;
 	}
 }

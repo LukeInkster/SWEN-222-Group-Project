@@ -117,4 +117,19 @@ public class Room implements Serializable{
 		if(dir==Direction.SOUTH)	return location(loc.getY(),loc.getX()+1);
 		else						return location(loc.getY()-1,loc.getX());
 	}
+	
+	/**
+	 * This is an equals method that implements a basic shallow comparison which is used to aid in
+	 * comparing events received by the client.
+	 * @param room
+	 * @return
+	 */
+	public boolean equals(Room room){
+		
+		//If the room is in the same co-ordinates in the game grid then there equal.
+		if(this.getX()==room.getX() && this.getY()==room.getY()){
+			return true;
+		}
+		return false;
+	}
 }

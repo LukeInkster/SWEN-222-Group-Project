@@ -108,7 +108,7 @@ public class Display {
 						//g.drawRect((x*tileWidth)-(y*slantWidth), y*tileHeight, tileWidth, tileHeight);
 
 						//TODO : check to see if there is a item on the tile if so draw it.
-
+						
 
 					}
 				}

@@ -78,20 +78,21 @@ public class Server extends Thread {
 					// First, we'll send an Acknowledgement Event, to determine that the connection was successfully made to the server
 					AcknowledgeEvent ack = new AcknowledgeEvent();
 					thread.sendClient(ack, getClients().get(id));
+					
+					// *** INITIALISATION OF NEW PLAYER *** //
+					
 					// We'll add the client as a player to the game.
 					game.addPlayer(new Player(id));
+					
 					//TODO delete these dummy items
-					game.getPlayer(id).addItem(new Key());
-					game.getPlayer(id).addItem(new Door());
 					game.getPlayer(id).addItem(new Tile(true,true,true,true));
-
-					// Then we should send a GameWorldUpdate to the player, giving the data required for rendering.
-					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
-					thread.sendClient(update, getClients().get(id));
-
-					// -- OBJECT SERIALIZE TEST
-					ObjectSerializeEvent test = new ObjectSerializeEvent(game.getRooms()[Game.GAME_WIDTH/2][Game.GAME_HEIGHT/2]);
-					thread.sendClient(test, getClients().get(id));
+					game.getPlayer(id).addItem(new Tile(true,false,true,true));
+					game.getPlayer(id).addItem(new Tile(true,true,false,true));
+					
+					// Then we should send a GameWorldUpdate to the player, giving the data required for that specific player.
+					// This would include the player and their start position as well as the start room.
+					ObjectSerializeEvent player = new ObjectSerializeEvent(game.getRooms()[Game.GAME_WIDTH/2][Game.GAME_HEIGHT/2], game.getPlayer(id));
+					thread.sendClient(player, getClients().get(id));
 
 					// Then we should update status.
 					System.out.println("[SERVER] Client Connected: [ " + client.getInetAddress().toString() + " ] -//- ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");

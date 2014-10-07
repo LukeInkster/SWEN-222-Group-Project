@@ -42,16 +42,32 @@ public class Client {
 				}else continue;
 			}
 
+			//TODO : add the event handling for the updates to the users player and room.
+				
 			if(e instanceof ObjectSerializeEvent){
-				Room room = ((ObjectSerializeEvent)e).room;
-				Location loc = room.getLocations()[Room.ROOM_WIDTH/2][Room.ROOM_HEIGHT/2];
-				if(loc == null){ System.out.println("[ERROR] DIDNT WORK"); }
-				else { System.out.println(loc.getX() + " " + loc.getY() + " ");}
+				
+				//first cast to correct class
+				ObjectSerializeEvent event = ((ObjectSerializeEvent)e);
+				
+				//Then check to see if there is a player update
+				//however need to check if it is the local player or not
+				//TODO : Possibly easier way of implementing this. (don't do flood update with player updates?)
+				if(event.getPlayer()!=null && event.getPlayer().equals(user.getPlayer())){
+					user.setPlayer(event.getPlayer());
+				}
+				
+				//Now check to see if there is an update for the room.
+				if(event.getRoom()!=null && event.getRoom().equals(user.getRoom())){
+					user.setRoom(event.getRoom());
+				}
+				
 			}
 
 
 			// -- CLIENT SIDE EDITS.
 
+			//TODO : remove this possibly...?
+			
 			if(e instanceof GameWorldUpdateEvent){
 				user.setPlayer(GameUtils.load((((GameWorldUpdateEvent) e).data)));
 				System.out.printf("Player inventory: %s\n",user.getPlayer().getItems().get(0).getFilename());

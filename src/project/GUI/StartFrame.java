@@ -77,7 +77,7 @@ public class StartFrame extends JFrame {
 	
 	private void newGUI(){
 		hostInfo = new JPanel();
-		ip = new JTextField("IP", 15);
+		ip = new JTextField("localhost", 15);
 		name = new JTextField("User Name", 15);
 		button = new JButton("Connect");
 		button.addActionListener(new ActionListener(){
