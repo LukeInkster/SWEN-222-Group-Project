@@ -1,6 +1,8 @@
 package project.game;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable{
 	// X & Y coordinates of this Location within the Room grid
 	private final int x;
 	private final int y;

@@ -18,6 +18,7 @@ import project.game.Tile;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
 import project.net.GameWorldUpdateEvent;
+import project.net.ObjectSerializeEvent;
 import project.utils.GameUtils;
 
 /**
@@ -87,6 +88,11 @@ public class Server extends Thread {
 					// Then we should send a GameWorldUpdate to the player, giving the data required for rendering.
 					GameWorldUpdateEvent update = new GameWorldUpdateEvent(GameUtils.save(game.getPlayer(id)));
 					thread.sendClient(update, getClients().get(id));
+
+					// -- OBJECT SERIALIZE TEST
+					ObjectSerializeEvent test = new ObjectSerializeEvent(game.getRooms()[Game.GAME_WIDTH/2][Game.GAME_HEIGHT/2]);
+					thread.sendClient(test, getClients().get(id));
+
 					// Then we should update status.
 					System.out.println("[SERVER] Client Connected: [ " + client.getInetAddress().toString() + " ] -//- ClientID [ " + id + " ] Currrent Connections: [ " + clients.size() + " ] Current Players: [ " + game.getPlayers().size() + " ]");
 					id++;

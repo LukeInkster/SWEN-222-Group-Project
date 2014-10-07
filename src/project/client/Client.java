@@ -1,11 +1,12 @@
 package project.client;
 
-import project.game.Player;
+import project.game.Location;
+import project.game.Room;
 import project.net.AcknowledgeEvent;
 import project.net.DenyConnectionEvent;
-import project.net.DummyEvent;
 import project.net.Event;
 import project.net.GameWorldUpdateEvent;
+import project.net.ObjectSerializeEvent;
 import project.utils.GameUtils;
 
 public class Client {
@@ -39,6 +40,13 @@ public class Client {
 				}else if(e instanceof DenyConnectionEvent){
 					System.out.println(((DenyConnectionEvent)e).toString());
 				}else continue;
+			}
+
+			if(e instanceof ObjectSerializeEvent){
+				Room room = ((ObjectSerializeEvent)e).room;
+				Location loc = room.getLocations()[Room.ROOM_WIDTH/2][Room.ROOM_HEIGHT/2];
+				if(loc == null){ System.out.println("[ERROR] DIDNT WORK"); }
+				else { System.out.println(loc.getX() + " " + loc.getY() + " ");}
 			}
 
 
