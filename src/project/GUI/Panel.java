@@ -164,7 +164,14 @@ public class Panel extends JPanel{
 			public void mousePressed(MouseEvent e){
 				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
 				user.getClient().push(new GameWorldUpdateEvent("x "+e.getX()));
-				//get object clicked on, can be door, wall,
+				//get object clicked on, can be door, wall, or chest
+				//buffers the image
+				Image offset = createImage(getWidth(),getHeight());
+
+				//Retrieves the graphics of the buffered image
+				Graphics2D offgc = (Graphics2D) offset.getGraphics();
+				//draws the display.
+				display.draw(offgc);
 			}
 
 			@Override

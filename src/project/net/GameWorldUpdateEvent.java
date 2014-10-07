@@ -8,7 +8,7 @@ package project.net;
 public class GameWorldUpdateEvent implements Event {
 	
 	public String data;
-	//why can't we just have aplayer object as a field here? -Mike
+	//why can't we just have a player object as a field here? -Mike
 
 	public GameWorldUpdateEvent(String data){
 		this.data = data;
