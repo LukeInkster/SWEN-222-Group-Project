@@ -89,6 +89,7 @@ public class Player implements Entity, Serializable{
 	public void setLocation(Location location) {
 		this.location = location;
 		roomsVisited.add(location.getRoom());
+		location.setEntity(this);
 	}
 
 	/**
