@@ -163,8 +163,9 @@ public class Panel extends JPanel{
 		addMouseListener(new MouseListener(){
 			@Override
 			public void mousePressed(MouseEvent e){
+				//TODO add check for mouse button
 				System.out.printf("X: %d, Y: %d\n",e.getX(),e.getY());
-				user.getClient().push(new GameWorldUpdateEvent("x "+e.getX()));
+				//user.getClient().push(new MouseUpdateEvent("x "+e.getX()));
 				//get object clicked on, can be door, wall, or chest
 				//make a graphics to draw interactable objects
 				Image offset = (BufferedImage) createImage(getWidth(),getHeight());

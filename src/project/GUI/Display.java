@@ -99,8 +99,7 @@ public class Display {
 							g.drawImage(wallIso, (x*tileWidth)-(y*slantWidth), -wallHeight+(y*tileHeight), slantWidth, wallHeight+30, null);
 						}
 						
-						//Sets the color for the test tiles and then draws them
-						g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight,60, tileHeight, null);
+						g.drawImage(tile,(x*tileWidth)-(y*slantWidth), y*tileHeight,60, tileHeight, Color.CYAN,null);
 						//g.drawImage(tile,(x*tileWidth)-(y*slantWidth)+slantWidth, y*tileHeight, tileWidth, tileHeight, null);
 
 						//Sets the color for the outline of the test tiles and then draws them.
