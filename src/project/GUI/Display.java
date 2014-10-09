@@ -105,7 +105,7 @@ public class Display {
 				//TODO : checks to see if there is a door on the side if so draws it
 				if(location.getX()==0 ){
 					
-					if(location.isDoor(Direction.SOUTH)){ //TODO : ERROR!!!!!!!!
+					if(location.isDoor(Direction.WEST)){ //TODO : ERROR!!!!!!!!
 						g.drawImage(doorIso, (location.getX()*tileWidth)-(location.getY()*slantWidth), -wallHeight+(location.getY()*tileHeight), slantWidth, wallHeight+30, null);
 					}else{
 						g.drawImage(wallIso, (location.getX()*tileWidth)-(location.getY()*slantWidth), -wallHeight+(location.getY()*tileHeight), slantWidth, wallHeight+30, null);
