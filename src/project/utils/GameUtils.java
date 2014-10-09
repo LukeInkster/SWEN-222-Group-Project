@@ -122,6 +122,7 @@ public class GameUtils {
 	}
 
 	private static void gobble(String string) {
+		if(string == null) return;
 		scan.skip(string);
 	}
 	

@@ -10,7 +10,7 @@ import java.util.Set;
 public class Player implements Entity, Serializable{
 	private static final int maxItems = 12;
 	private List<Item> items = new ArrayList<Item>();
-	private Location location = new Location(null,0,0);	//TODO
+	private Location location = new Location(null,0,0);	//TODO : Gets set to proper location when added to game.
 	private Direction orientation;
 	private Set<Room> roomsVisited = new HashSet<Room>();
 	private int id;
