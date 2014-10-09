@@ -90,8 +90,8 @@ public class Location implements Serializable{
 	public boolean isDoor(Direction direction) {
 		if(direction == Direction.NORTH && x == Room.ROOM_WIDTH/2 && y==0) return true;
 		if(direction == Direction.EAST && x == Room.ROOM_WIDTH-1 && y==Room.ROOM_HEIGHT/2) return true;
-		if(direction == Direction.SOUTH && x == 0 && y==Room.ROOM_HEIGHT/2) return true;
-		if(direction == Direction.WEST && x == Room.ROOM_WIDTH/2 && y==Room.ROOM_HEIGHT-1) return true;
+		if(direction == Direction.SOUTH && x == Room.ROOM_WIDTH/2 && y==Room.ROOM_HEIGHT-1) return true;
+		if(direction == Direction.WEST && x == 0 && y==Room.ROOM_HEIGHT/2) return true;
 		return false;
 	}
 }

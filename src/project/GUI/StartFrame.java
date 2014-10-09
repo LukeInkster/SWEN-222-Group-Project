@@ -54,6 +54,7 @@ public class StartFrame extends JFrame {
 		buttons.add(button);
 		button = new JButton("Join");
 		button.addActionListener(new ActionListener(){
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -61,6 +62,7 @@ public class StartFrame extends JFrame {
 				title.setText("Please Enter the Host Information below:");
 				newGUI();
 			}
+			
 		});
 
         setPreferredSize(new Dimension(400, 120));
@@ -81,8 +83,10 @@ public class StartFrame extends JFrame {
 		name = new JTextField("User Name", 15);
 		button = new JButton("Connect");
 		button.addActionListener(new ActionListener(){
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				 String ipAddress = ip.getText();
 				 String username = name.getText();
 				 
@@ -91,19 +95,19 @@ public class StartFrame extends JFrame {
 				 Panel panel = new Panel(user);
 				 Client client = user.getClient();
 				 
-				 // -- TODO: Fix this!
-				// client.push(new DummyEvent());
 				 client.update();
 				 dispose();
 				 
-				 
 			}
+			
 		});
+		
 		hostInfo.add(ip);
 		hostInfo.add(name);
 		hostInfo.add(button);
 		add(hostInfo);
 		setVisible(true);
+		
 	}
 	
 	

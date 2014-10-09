@@ -70,7 +70,7 @@ public class Panel extends JPanel{
 		setPreferredSize(new Dimension(800-10,600-10));
 
 		//creates a new display to be drawn.
-		display = new Display(user.getRoom());
+		display = new Display(user);
 
 		//TODO : send player to MiniMap.
 		map = new MiniMap(user);

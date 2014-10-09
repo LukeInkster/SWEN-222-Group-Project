@@ -52,12 +52,12 @@ public class Client {
 				//Then check to see if there is a player update
 				//however need to check if it is the local player or not
 				//TODO : Possibly easier way of implementing this. (don't do flood update with player updates?)
-				if(event.getPlayer()!=null && event.getPlayer().equals(user.getPlayer())){
+				if(user.getPlayer()==null || (event.getPlayer()!=null && event.getPlayer().equals(user.getPlayer()))){
 					user.setPlayer(event.getPlayer());
 				}
 				
 				//Now check to see if there is an update for the room.
-				if(event.getRoom()!=null && event.getRoom().equals(user.getRoom())){
+				if(user.getRoom()==null || (event.getRoom()!=null && event.getRoom().equals(user.getRoom()))){
 					user.setRoom(event.getRoom());
 				}
 				
@@ -69,9 +69,8 @@ public class Client {
 			//TODO : remove this possibly...?
 			
 			if(e instanceof GameWorldUpdateEvent){
-				user.setPlayer(GameUtils.load((((GameWorldUpdateEvent) e).data)));
-				System.out.printf("Player inventory: %s\n",user.getPlayer().getItems().get(0).getFilename());
-				System.out.println("[CLIENT: "+userName+"] "+((GameWorldUpdateEvent)e).data);
+				
+				
 			}
 
 			// TODO: Handle Client Side events HERE!
