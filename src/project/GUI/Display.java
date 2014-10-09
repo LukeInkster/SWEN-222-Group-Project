@@ -58,7 +58,7 @@ import project.utils.GameUtils;
 
 		((Graphics2D) g).setComposite(makeComposite(1.0f)); //now lets not draw everything else transparent
 
-@@ -85,33 +86,44 @@ public class Display {
+public class Display {
 
 	private void drawRoom(Graphics g) {
 		//now loop through the rooms locations and draw the floor and if needed walls.
